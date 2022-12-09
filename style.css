@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+:root{
+    --main-color:#E77062;
+    --black:#555;
+    --light-color:rgb(151, 132, 132);
+    --bg:#d4f1f3;
+    --border:.1rem solid rgba(0,0,0,.1);
+    --box-shadow:0 .5rem 1.5rem rgba(0,0,0,.1);
+}
+
+*{
+    font-family: 'Nunito', sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    outline: none;
+    border:none;
+    text-decoration: none;
+    transition: all .3s ease-out;
+}
+
+*::selection{
+    background:var(--main-color);
+    color:#fff;
+}
+
+header{
+    position: fixed;
+    top:10px; left:10px; right: 10px;
+    z-index: 1000;
+    background: #fff;
+    box-shadow: var(--box-shadow);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:2rem 9%;
+    border-radius: 1.5rem;
+}
+
+header .logo{
+    width: 5rem;
+    height: 5rem;
+}
+
+header .navbar a{
+    font-size: 1.7rem;
+    color: var(--light-color);
+    margin-left: 2rem;
+}
+
+header .navbar a:hover{
+    color:var(--main-color);
+}
+
+.izvelne{
+    margin: 15rem auto;
+    width:900px;
+    height:600px;
+    display:grid;
+    grid-template-columns: 450px 450px;
+    grid-row: auto auto;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+}
+
+.izvelne > .box{
+    background-color: aquamarine;
+    display: flex;
+    padding: 2rem auto;
+    border-radius: 2rem;
+    align-items:center;
+    justify-content:center;
+    flex-direction: column;
+    box-shadow: var(--box-shadow);
+    border: var(--border);
+}
+
+.izvelne > .box:hover{
+    background-color: rgb(179, 250, 226);
+    box-shadow: none;
+    color: var(--main-color);
+}
+
+.izvelne > .box > .fas{
+    padding: .5rem;
+    font-size: 2rem;
+}
+
+
+body{
+    background-color: var(--bg);
+}
+
+header .active{
+    font-weight: bold;
+    background-color: var(--bg);
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+#adminSakums .row{
+    margin-top: 10rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.head-color{
+    background: var(--bg);
+}
+
+#adminSakums .row .info{
+    flex:1 1 45rem;
+    border:var(--border);
+    box-shadow: var(--box-shadow);
+    border-radius: .5rem;
+}
