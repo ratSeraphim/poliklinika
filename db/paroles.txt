@@ -1,0 +1,21 @@
+raivisozols Parole1
+ievaliepina 1234
+janispirsis PaPa1
+aivalaiva aivalaiva
+igorskronis Kronis1
+valtershumberts Valters1
+
+
+
+
+<?php 
+require ("connect_db.php");
+
+$vizite= $row['vizite_id'];;
+$result = mysqli_query($savienojums, "CALL izmaksas('$vizite')");
+while($row=mysqli_fetch_array($result))
+	{
+	echo $row['samaksa'];
+	}
+
+?>

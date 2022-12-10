@@ -102,6 +102,13 @@ INSERT INTO vizite (id_pacients, id_arsts, laiks, id_pakalpojums, gim_arsta_nosu
 (4, 7, '2023-01-12 14:20:00', 7, 1, 1, 0, 'A-214'),
 (3, 8, '2023-01-06 13:00:00', 4, 0, 0, 1, 'A-201');
 
+UPDATE `lietotaji` SET `parole` = '$2y$10$.NwG4vRuJR2u5WpDnfaUcOHJl3u9TLDfXqYj7utnYOrJsfeqvjVl2' WHERE `lietotaji`.`lietotajs_id` = 1 AND `lietotaji`.`id_darbinieks` = 4; 
+UPDATE `lietotaji` SET `parole` = '$2y$10$0XeFucMPskKKJwsCS/7x7eb13oDZkkCd5m/53DYDhGHUI2z9Px3ei' WHERE `lietotaji`.`lietotajs_id` = 2 AND `lietotaji`.`id_darbinieks` = 2;
+UPDATE `lietotaji` SET `parole` = '$2y$10$vKIV8FArUGAyhUzPJuUS6.dqpr2f4cEOx.vvMHbUE4w3/gFZAleQy' WHERE `lietotaji`.`lietotajs_id` = 3 AND `lietotaji`.`id_darbinieks` = 1; 
+UPDATE `lietotaji` SET `parole` = '$2y$10$qV9m4Xthd0vDxXgMW17rC./Yfjd.9AgpCOCKdVhBzzOn8A/3eEtsy' WHERE `lietotaji`.`lietotajs_id` = 4 AND `lietotaji`.`id_darbinieks` = 3; 
+UPDATE `lietotaji` SET `parole` = '$2y$10$o6qwzkekoPuOtYF5tOL0SOnfgnQN/vJWOIVWFJx42vlM0CrFc3njq' WHERE `lietotaji`.`lietotajs_id` = 5 AND `lietotaji`.`id_darbinieks` = 7; 
+UPDATE `lietotaji` SET `parole` = '$2y$10$aRD43lA4QTpvNzVabK7jC.gXHCk5GD2srYbmTLMMxQx4JliO8AzPC' WHERE `lietotaji`.`lietotajs_id` = 6 AND `lietotaji`.`id_darbinieks` = 8;
+
 -- admin 
 CREATE USER 'administrators'@'localhost' IDENTIFIED VIA mysql_native_password USING '***';GRANT USAGE ON *.* TO 'administrators'@'localhost' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
 GRANT ALL PRIVILEGES ON `poliklinika`.* TO 'administrators'@'localhost' WITH GRANT OPTION;
@@ -120,18 +127,20 @@ DELIMITER ;
 
 CALL lietotajaVards('ievaliepina');
 
+CALL lietotajaVards('raivisozols');
+
 -- aprēķina, cik pacientam jāmaksā par vizīti. ja ir ģimenes ārsta nosūtījums, tad maksā 4 EUR. 
 -- Ja ir apdrošināšana, tad pacientam ir jāmaksā uz pusi mazāk. Ja vizīte ir valsts apmaksāta, pacientam nav jāmaksā.
 DELIMITER $$
-CREATE PROCEDURE izmaksas (IN vizite INT, OUT samaksa decimal(10,2))
+CREATE PROCEDURE izmaksas (IN vizite INT)
 BEGIN
 	DECLARE valstsapm TINYINT;
     DECLARE gimnosutijums TINYINT;
     DECLARE apdrosinats TINYINT;
-    DECLARE pakcena DECIMAL(10,2);
+    DECLARE samaksa DECIMAL(10,2);
     
 	SELECT cena, gim_arsta_nosutijums, apdrosinasana, valsts_apmaksats
-    INTO pakcena, gimnosutijums, apdrosinats, valstsapm
+    INTO samaksa, gimnosutijums, apdrosinats, valstsapm
     FROM vizite AS v
     INNER JOIN pakalpojums
     ON id_pakalpojums = pakalpojums_id
@@ -142,32 +151,57 @@ BEGIN
 	ELSEIF gimnosutijums = 1 THEN
 		SET samaksa = 4.00;
 	ELSEIF apdrosinats = 1 THEN
-		SET samaksa = (pakcena / 2);
+		SET samaksa = (samaksa / 2);
 	ELSE 
-		SET samaksa = pakcena;
+		SET samaksa = samaksa;
 	END IF;
+    
+    SELECT samaksa;
 END $$
 DELIMITER ;
 
+
+
 -- jamaksa 2 eur, jo ģimenes ārsta apmeklējums
-CALL izmaksas (1,@vizite1);
-SELECT @vizite1; 
+CALL izmaksas (1);
+
 -- nav jāmaksā, jo ir valsts apmaksāts
-CALL izmaksas (5,@vizite5);
-SELECT @vizite5;
+CALL izmaksas (5);
+
 -- jāmaksā 5 eur, jo kardiologa apmeklējums ir 10 eur un pacientam ir apdrošināšana.
-CALL izmaksas (3,@vizite3);
-SELECT @vizite3;
+CALL izmaksas (3);
 
 -- skats, kas parāda ģimenes ārstu pēc vārda, uzvārda, nevis pēc id numura
 CREATE VIEW gimenesarstsPacientiem AS
-SELECT pacients_id, p.vards, p.uzvards, p.personas_kods, p.dzim_datums, p.talrunis, p.epasts, p.nacionalitate, CONCAT(d.vards, ' ',d.uzvards) AS gimenesarsts
+SELECT pacients_id, p.vards, p.uzvards, p.dzim_datums, CONCAT(d.vards, ' ',d.uzvards) AS gimenesarsts
 FROM pacienti AS p
 INNER JOIN darbinieki AS d
 ON gimenes_arsts = darbinieks_id;
 
 SELECT * from gimenesarstsPacientiem;
 
+CREATE VIEW vissParPacientu AS
+SELECT pacients_id, p.vards, p.uzvards, p.personas_kods, p.dzim_datums, p.talrunis, p.epasts, p.nacionalitate, CONCAT(d.vards, ' ',d.uzvards) AS gimenesarsts, 
+CONCAT(a.valsts,', ', a.regions,', ',a.pilseta,', ',a.iela,' ',a.maja,', ',pasta_indekss) AS adrese
+FROM pacienti AS p
+INNER JOIN darbinieki AS d
+ON gimenes_arsts = darbinieks_id
+INNER JOIN adrese AS a
+ON a.adrese_id = p.id_adrese;
+
+SELECT * from vissParPacientu;
+
 -- skats, kas glītāk izvadīs vizītes datus (reāli uzraksti, nevis cipari) 
 CREATE VIEW vizites AS 
-;
+SELECT DISTINCT vizite_id, CONCAT(pac.vards, ' ', pac.uzvards) AS pacients, CONCAT(darb.vards,' ',darb.uzvards) AS arsts,
+ laiks, pak.nosaukums AS pakNosaukums, gim_arsta_nosutijums, valsts_apmaksats, apdrosinasana, id_kabinets AS kabinets
+FROM vizite
+INNER JOIN pacienti AS pac 
+ON vizite.id_pacients = pac.pacients_id
+INNER JOIN pakalpojums AS pak
+ON id_pakalpojums = pakalpojums_id
+INNER JOIN darbinieki AS darb
+ON id_arsts = darbinieks_id
+ORDER BY laiks ASC;
+
+SELECT * FROM vizites;

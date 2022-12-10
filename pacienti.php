@@ -2,6 +2,7 @@
     $page ="pacienti";
     require "header.php";
 
+    if(isset($_SESSION['username'])){
  ?>
 
 <section id="adminSakums">
@@ -12,15 +13,13 @@
                 <tr>
                     <th>Vārds</th>
                     <th>Uzvārds</th>
-                    <th>Personas kods</th>
                     <th>Dzimšanas dati</th>
-                    <th>Tālrunis</th>
-                    <th>E-pasts</th>
-                    <th>Nacionalitāte</th>
                     <th>Ģimenes ārsts</th>
                     <th></th>
                 </tr>
 
+
+                    
                 <?php 
                     require ("connect_db.php");
                     $pacientu_SQL = "SELECT * from gimenesarstsPacientiem";
@@ -34,18 +33,14 @@
                                 <tr>
                                     <td>{$row['vards']}</td>
                                     <td>{$row['uzvards']}</td>
-                                    <td>{$row['personas_kods']}</td>
                                     <td>{$row['dzim_datums']}</td>
-                                    <td>{$row['talrunis']}</td>
-                                    <td>{$row['epasts']}</td>
-                                    <td>{$row['nacionalitate']}</td>
                                     <td>{$row['gimenesarsts']}</td>
                                     <td>
                                         <form action='pacients.php' method='post'>
-                                        
-                                            <button type='submit' class='btn2' name='apskatit' value='{$row['pacients_id']}'>
-                                            <i class='fa-solid fa-magnifying-glass'></i>
-                                            </button>
+                                            
+                                        <button type='submit' class='btn2' name='apskatit' value='{$row['pacients_id']}'>
+                                        <i class='fa-solid fa-magnifying-glass'></i>
+                                        </button>
 
                                         </form>
                                     </td>
@@ -63,3 +58,9 @@
     </div>
 </section>
 
+<?php
+    } else {
+        echo "<div class='pazinojums sarkans'>TEV ŠEIT NAV PIEEJAS!</div>";
+        header("Refresh: 0;url=login.php");
+    }
+include "footer.php"; ?>

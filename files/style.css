@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
 
+
+
 :root{
     --main-color:#E77062;
     --black:#555;
@@ -53,8 +55,15 @@ header .navbar a:hover{
     color:var(--main-color);
 }
 
+#lietotajaIzvade{
+    margin-top: 13rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: var(--main-color)
+}
+
 .izvelne{
-    margin: 15rem auto;
+    margin: auto;
     width:900px;
     height:600px;
     display:grid;
@@ -100,14 +109,14 @@ header .active{
 }
 
 #adminSakums .row{
-    margin-top: 10rem;
     display: flex;
     flex-wrap: wrap;
     gap: 1.5rem;
+    margin: 10rem 3rem 0;
 }
 
 .head-color{
-    background: var(--bg);
+    background: var(--main-color);
 }
 
 #adminSakums .row .info{
@@ -115,4 +124,70 @@ header .active{
     border:var(--border);
     box-shadow: var(--box-shadow);
     border-radius: .5rem;
+}
+
+#adminSakums .row .info2{
+    flex:1 1 20rem;
+    border:var(--border);
+    box-shadow: var(--box-shadow);
+    border-radius: .5rem;
+}
+
+.head-info{
+    background-color: #f8f8f8;
+    color: var(--black);
+    padding: 2rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+table{
+    font-size: 1.5rem;
+	width: 100%;
+}
+
+th, td{
+	text-align: center;
+	height: 100px;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:hover{
+	background-color: var(--bg);
+}
+
+th{
+	font-weight: bold;
+	color: var(--black);
+	text-align:center;
+}
+
+footer{
+    background: var(--bg);
+    color: var(--black);
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+    font-size: 1rem;
+}
+
+#pacientsImg{
+    width: 15rem;
+}
+
+.btn{
+    display: block;
+    background-color: var(--main-color);
+    padding: .5rem;
+    margin: .5rem;
+    border-radius: .5rem;
+    color:rgb(179, 250, 226)
+}
+
+.btn:hover{
+    background-color: var(--black);
+    padding: .5rem;
+    border-radius: .5rem;
+    color:rgb(179, 250, 226)
 }

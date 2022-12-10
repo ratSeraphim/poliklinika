@@ -2,6 +2,7 @@
     $page ="vizites";
     require "header.php";
 
+    if(isset($_SESSION['username'])){
  ?>
 <section id="adminSakums">
 <div class="row">
@@ -9,57 +10,81 @@
             <div class="head-info">Vizīšu administrēšana</div>
             <table>
                 <tr>
-                    <th>Vārds</th>
-                    <th>Uzvārds</th>
-                    <th>Personas kods</th>
-                    <th>Dzimšanas dati</th>
-                    <th>Tālrunis</th>
-                    <th>E-pasts</th>
-                    <th>Nacionalitāte</th>
-                    <th>Ģimenes ārsts</th>
-                    <th>Adrese</th>
-                    <th></th>
+                    <th>Pacients</th>
+                    <th>Ārsts</th>
+                    <th>Laiks</th>
+                    <th>Veicamais Pakalpojums</th>
+                    <th>Ģim. ārsta nosūtījums</th>
+                    <th>Valsts apmaksāts</th>
+                    <th>Apdrošināts</th>
+                    <th>Kabinets</th>
+                    <th>
+                    </th>
+
                 </tr>
 
                 <?php 
                     require ("connect_db.php");
-                    $vizisu_SQL = "SELECT * FROM pacienti";
+                    $vizisu_SQL = "SELECT * FROM vizites";
                     $atlasa_vizites = mysqli_query($savienojums, $vizisu_SQL) or die ("Nekorekts vaicājums");
+//
 
                     if(mysqli_num_rows($atlasa_vizites) > 0) {
                         while($row = mysqli_fetch_assoc($atlasa_vizites)){
 
-
-                            echo "
+                           
+                                echo "
                                 <tr>
-                                    <td>{$row['vards']}</td>
-                                    <td>{$row['uzvards']}</td>
-                                    <td>{$row['personas_kods']}</td>
-                                    <td>{$row['dzim_datums']}</td>
-                                    <td>{$row['talrunis']}</td>
-                                    <td>{$row['epasts']}</td>
-                                    <td>{$row['nacionalitate']}</td>
-                                    <td>{$row['gimenes_arsts']}</td>
-                                    <td>{$row['id_adrese']}</td>
+                                    <td>{$row['pacients']}</td>
+                                    <td>{$row['arsts']}</td>
+                                    <td>{$row['laiks']}</td>
+                                    <td>{$row['pakNosaukums']}</td>
+                                    <td>{$row['gim_arsta_nosutijums']}</td>
+                                    <td>{$row['valsts_apmaksats']}</td>
+                                    <td>{$row['apdrosinasana']}</td>
+                                    <td>{$row['kabinets']}</td>
+                                    ";
+                                ?>
                                     <td>
-                                        <form action='pacients.php' method='post'>
-                                        
-                                            <button type='submit' class='btn2' name='apskatit' value='{$row['pacients_id']}'>
-                                            <i class='fa-solid fa-magnifying-glass'></i>
-                                            </button>
-
-                                        </form>
+                                    <a class="btn" onclick="DeleteConfirm()" href="files\delete_appt.php?vizite_id=<?php echo $row['vizite_id']; ?>">
+                                        Dzēst
+                                    </a>
+                                    <a class="btn" href="files\edit_appt.php?vizite_id=<?php echo $row['vizite_id']; ?>">Rediģēt</a>
                                     </td>
+                                    
                                 </tr>
-                            ";
+                           <?php
+                            
+                         //   }
+                            
                             // $row always contains info about databases
+                           
+                            
+                            
                         }
                     }else{
                         echo "Tabulā nav datu ko attēlot!";
                     }
+
+                    
                 ?>
 
             </table>
+                
+            <script>
+                function DeleteConfirm() {
+                confirm("Vai esi pārliecināts, ka vēlies dzēst ierakstu?");
+                }
+                function value(){
+                confirm("Pacientam jāmaksā ")
+                }
+            </script>
         </div>
     </div>
 </section>
+<?php
+    } else {
+        echo "<div class='pazinojums sarkans'>TEV ŠEIT NAV PIEEJAS!</div>";
+        header("Refresh: 0;url=login.php");
+    }
+include "footer.php"; ?>
