@@ -37,8 +37,11 @@
                             <table>
                                 <tr>
                                     <td rowspan='13'>
-                                        <img id='pacientsImg' src='images/pacienti.png'>
+                                    <i id='userImg' class='fa-solid fa-clipboard-user></i>
                                     </td>
+                                </tr>
+                                <tr>
+                                    <td>ID:</td><td class='value'>{$row['pacients_id']}</td>
                                 </tr>
                                 <tr>
                                     <td>Pacients:</td><td class='value'>{$row['vards']} {$row['uzvards']}</td>
@@ -114,5 +117,5 @@
         echo"<div class='pazinojums sarkans'>TEV ŠEIT NAV PIEEJAS!</div>";
         header("Refresh: 0, url=login.php");
     }
-include "footer.php";
+
 ?>

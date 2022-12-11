@@ -65,11 +65,20 @@
                             } else {
                                 $apdrosinats = "<i class='fas fa-check'></i>";
                             }
+
+                           
+                            if( strtotime($row['laiks']) > strtotime('now')){
+                                 // Ja vizīte vēl nav pienākusi, tad iekrāsojas sarkana
+                                $apmeklejumaLaiks = "<td class='velak'> {$row['laiks']} </td>";
+                            } else {
+                                //Ja vizīte pagājusi, tad iekrāsojas pelēks
+                                $apmeklejumaLaiks = "<td class='pagajis'> {$row['laiks']} </td>";
+                            }
                                 echo "
                                 <tr>
                                     <td>{$row['pacients']}</td>
                                     <td>{$row['arsts']}</td>
-                                    <td>{$row['laiks']}</td>
+                                    {$apmeklejumaLaiks}
                                     <td>{$row['pakNosaukums']}</td>
                                     <td class='check'>{$nosutijums}</td>
                                     <td class='check'>{$apmaksats}</td>
@@ -78,10 +87,10 @@
                                     ";
                                 ?>
                                     <td>
-                                    <a class="btn" onclick="DeleteConfirm()" href="files\delete_appt.php?vizite_id=<?php echo $row['vizite_id']; ?>">
+                                    <a class="btn-danger" onclick="DeleteConfirm()" href="files\delete_appt.php?vizite_id=<?php echo $row['vizite_id']; ?>">
                                         Dzēst
                                     </a>
-                                    <a href="files\edit_appt.php?edit_id=<?php echo $row['vizite_id']; ?>" alt="edit" >Edit</a>
+                                    <a class="btn" href="files\edit_appt.php?edit_id=<?php echo $row['vizite_id']; ?>" alt="edit" >Edit</a>
                                     </td>
                                     
                                 </tr>
@@ -134,7 +143,9 @@
             </a>
         </div>
 <?php
+    // Ja lietotājs nav ielogojies/nav sesijas, tad atgriež uz logina lapas
     } else {
         header("Refresh: 0;url=login.php");
     }
+    //Pieliek kājeni
 include "footer.php"; ?>

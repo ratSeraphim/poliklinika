@@ -1,5 +1,5 @@
 <?php 
-    $page = "audzekni"; #Obligāti jādara pirms izsaucot header
+    $page = "darbinieki"; #Obligāti jādara pirms izsaucot header
     require "header.php";
 
     if(isset($_SESSION['username'])){
@@ -24,7 +24,7 @@
                             <table>
                                 <tr>
                                     <td rowspan='13'>
-                                        <i class='fas fa-user user-ico'></i>
+                                    <i id='userImg' class='fa-solid fa-user-doctor'></i>
                                     </td>
                                 </tr>
                                 <tr>

@@ -45,8 +45,8 @@ CREATE TABLE IF NOT EXISTS `poliklinika`.`darbinieki` (
   CONSTRAINT `fk_darbinieki_adrese1`
     FOREIGN KEY (`id_adrese`)
     REFERENCES `poliklinika`.`adrese` (`adrese_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -64,8 +64,8 @@ CREATE TABLE IF NOT EXISTS `poliklinika`.`lietotaji` (
   CONSTRAINT `fk_lietotaji_darbinieki1`
     FOREIGN KEY (`id_darbinieks`)
     REFERENCES `poliklinika`.`darbinieki` (`darbinieks_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -87,13 +87,13 @@ CREATE TABLE IF NOT EXISTS `poliklinika`.`pacienti` (
   CONSTRAINT `fk_pacienti_darbinieki1`
     FOREIGN KEY (`gimenes_arsts`)
     REFERENCES `poliklinika`.`darbinieki` (`darbinieks_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_pacienti_adrese1`
     FOREIGN KEY (`id_adrese`)
     REFERENCES `poliklinika`.`adrese` (`adrese_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -136,22 +136,22 @@ CREATE TABLE IF NOT EXISTS `poliklinika`.`vizite` (
   CONSTRAINT `fk_vizite_pacienti1`
     FOREIGN KEY (`id_pacients`)
     REFERENCES `poliklinika`.`pacienti` (`pacients_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_vizite_darbinieki1`
     FOREIGN KEY (`id_arsts`)
     REFERENCES `poliklinika`.`darbinieki` (`darbinieks_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_vizite_pakalpojums1`
     FOREIGN KEY (`id_pakalpojums`)
     REFERENCES `poliklinika`.`pakalpojums` (`pakalpojums_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_vizite_kabinets1`
     FOREIGN KEY (`id_kabinets`)
     REFERENCES `poliklinika`.`kabinets` (`kabinets_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -177,12 +177,12 @@ CREATE TABLE IF NOT EXISTS `poliklinika`.`pacienta_diagnoze` (
   CONSTRAINT `fk_pacienti_has_diagnoze_pacienti1`
     FOREIGN KEY (`id_pacients`)
     REFERENCES `poliklinika`.`pacienti` (`pacients_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_pacienti_has_diagnoze_diagnoze1`
     FOREIGN KEY (`id_diagnoze`)
     REFERENCES `poliklinika`.`diagnoze` (`diagnozes_kods`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -207,13 +207,13 @@ CREATE TABLE IF NOT EXISTS `poliklinika`.`darbinieka_specialitate` (
   CONSTRAINT `fk_darbinieki_has_specialitate_darbinieki1`
     FOREIGN KEY (`id_darbinieks`)
     REFERENCES `poliklinika`.`darbinieki` (`darbinieks_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_darbinieki_has_specialitate_specialitate1`
     FOREIGN KEY (`id_specialitate`)
     REFERENCES `poliklinika`.`specialitate` (`specialitate_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 

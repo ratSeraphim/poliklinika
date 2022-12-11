@@ -3,6 +3,16 @@
     require "header.php";
 
     if(isset($_SESSION['username'])){
+        
+        
+        if (isset($_GET['page']))
+        {
+            $page = $_GET['page'];
+        }
+        else
+        {
+            $page = 1;
+        }
  ?>
 
 <section id="adminSakums">
@@ -22,7 +32,16 @@
                     
                 <?php 
                     require ("connect_db.php");
-                    $pacientu_SQL = "SELECT * from gimenesarstsPacientiem";
+
+                    $LimitPerPage = 4;
+                    $offset = ($page -1) * $LimitPerPage;
+
+                    $CountQuery = "SELECT count(*) FROM pacienti";
+                    $res = mysqli_query($savienojums, $CountQuery);
+                    $records = mysqli_fetch_array($res)[0];
+                    $totalpages = ceil($records / $LimitPerPage);
+
+                    $pacientu_SQL = "SELECT * from gimenesarstsPacientiem LIMIT $LimitPerPage OFFSET $offset";
                     $atlasa_pacientus = mysqli_query($savienojums, $pacientu_SQL) or die ("Nekorekts vaicājums");
 
                     if(mysqli_num_rows($atlasa_pacientus) > 0) {
@@ -41,11 +60,19 @@
                                         <button type='submit' class='btn2' name='apskatit' value='{$row['pacients_id']}'>
                                         <i class='fa-solid fa-magnifying-glass'></i>
                                         </button>
-
+                                        ";
+                                        ?>
+                                        <td>
+                                        <a class="btn-danger" onclick="DeleteConfirm()" href="files\delete_patient.php?pacients_id=<?php echo $row['pacients_id']; ?>">
+                                            Dzēst
+                                        </a>
+                                        <a class="btn" href="files\edit_patient.php?edit_id=<?php echo $row['pacients_id']; ?>" alt="edit" >Edit</a>
                                         </form>
                                     </td>
+                                        
                                 </tr>
-                            ";
+                                <?php
+                                        
                             // $row always contains info about databases
                         }
                     }else{
@@ -57,6 +84,25 @@
         </div>
     </div>
 </section>
+
+<div class=lappuses> 
+            <!-- 1 lappuse uz atpakaļu -->
+            <a class="lpp <?php if($page <= 1){ echo 'disabled'; } ?>"
+                href="<?php if($page <= 1){ echo '#'; } else { echo "?page=".($page - 1); } ?>">
+                &lt;&lt;
+            </a>
+            <!-- lappuses numuri -->
+            <?php
+                for($num = 1; $num<= $totalpages; $num++) { 
+                    echo '<a class="lpp" href = "?page=' . $num . '">' . $num . ' </a>';
+                }
+            ?>
+            <!-- 1 lappuse uz priekšu -->
+            <a class="lpp <?php if($page >= $totalpages){ echo 'disabled'; } ?>"
+                href="<?php if($page >= $totalpages){ echo '#'; } else { echo "?page=".($page + 1); } ?>">
+                &gt;&gt;
+            </a>
+        </div>
 
 <?php
     } else {
