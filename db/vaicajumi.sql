@@ -237,4 +237,7 @@ ON specialitate_id = id_specialitate;
 SELECT * FROM darbSpecialitates WHERE darbinieks_id = 3;
 
 CREATE VIEW diagnozes AS
-SELECT pacients_id, id_diagnoze, nosaukums, statuss
+SELECT id_pacients, id_diagnoze, nosaukums, statuss
+FROM pacienta_diagnoze 
+INNER JOIN diagnoze
+ON id_diagnoze = diagnozes_kods;

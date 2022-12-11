@@ -81,7 +81,7 @@
                                     <a class="btn" onclick="DeleteConfirm()" href="files\delete_appt.php?vizite_id=<?php echo $row['vizite_id']; ?>">
                                         Dzēst
                                     </a>
-                                    <a class="btn" href="files\edit_appt.php?vizite_id=<?php echo $row['vizite_id']; ?>">Rediģēt</a>
+                                    <a href="files\edit_appt.php?edit_id=<?php echo $row['vizite_id']; ?>" alt="edit" >Edit</a>
                                     </td>
                                     
                                 </tr>
