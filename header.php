@@ -18,12 +18,19 @@
         <a href="index.php" class="<?php echo ($page == "sakums" ? "active" : ""); ?>"><i class="fas fa-home"></i> Sākumlapa</a>
         <a href="vizites.php" class="<?php echo ($page == "vizites" ? "active" : ""); ?>"><i class="fa fa-calendar"></i> Vizītes</a>
         <a href="pacienti.php" class="<?php echo ($page == "pacienti" ? "active" : ""); ?>"><i class="fas fa-users"></i> Pacienti</a>
-        <a href="#pakalpojumi.php" class="<?php echo ($page == "pakalpojumi" ? "active" : ""); ?>"><i class="fa-solid fa-suitcase-medical"></i> Pakalpojumi</a>
+        <?php 
+        session_start();
+        //parāda darbinieku sadaļu tikai lietotājiem ar administratora piekļuvi
+        IF ($_SESSION["isadmin"] == "yes") { ?> 
+        <a href="darbinieki.php" class="<?php echo ($page == "darbinieki" ? "active" : ""); ?>"><i class="fa-solid fa-suitcase-medical"></i> Darbinieki</a> 
+        <?php } ?>
+        
+        
     </nav>
     <nav class="navbar">
         <a href="files/logout.php"><b>
             <?php
-            session_start();
+            
             echo $_SESSION["username"];
             ?>
         </b> <i class="fas fa-power-off"></i></a>

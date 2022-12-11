@@ -25,13 +25,13 @@ INSERT INTO darbinieki (vards, uzvards, tips, personas_kods, talrunis, liguma_nr
 ('Igors', 'Kronis', 'Speciālists', '206442-50604', '20808080', '120546080', 8),
 ('Valters', 'Humberts', 'Speciālists', '206775-20604', '24540888', '1075502574', 6);
 
-INSERT INTO lietotaji (lietotajvards, parole, epasts, id_darbinieks) VALUES
-('raivisozols', 'Parole1', 'ozolsraivis@gmail.com', 4), -- administrators
-('ievaliepina', '1234', 'liepinai@inbox.lv', 2), -- vaditaja
-('janispirsis', 'PaPa1', 'pirsisjanis@gmail.lv', 1), -- neirologs, bernu neirologs
-('aivalaiva', 'aivalaiva', 'aivalaiva@gmail.com', 3), --  gimenes arsts, pediatrs
-('igorskronis', 'Kronis1', 'igorskronis@gmail.com', 7), -- gimenes arsts, kardiologs
-('valtershumberts', 'Valters1', 'humbertsv@inbox.lv', 8); -- alergologs
+INSERT INTO lietotaji (lietotajvards, parole, epasts, id_darbinieks, adminpiekluve) VALUES
+('raivisozols', 'Parole1', 'ozolsraivis@gmail.com', 4, 'yes'), -- administrators
+('ievaliepina', '1234', 'liepinai@inbox.lv', 2, 'yes'), -- vaditaja
+('janispirsis', 'PaPa1', 'pirsisjanis@gmail.lv', 1, 'no'), -- neirologs, bernu neirologs
+('aivalaiva', 'aivalaiva', 'aivalaiva@gmail.com', 3, 'no'), --  gimenes arsts, pediatrs
+('igorskronis', 'Kronis1', 'igorskronis@gmail.com', 7, 'no'), -- gimenes arsts, kardiologs
+('valtershumberts', 'Valters1', 'humbertsv@inbox.lv', 8, 'no'); -- alergologs
 
 INSERT INTO specialitate (nosaukums) VALUES
 ('Kardiologs'),
@@ -109,6 +109,11 @@ UPDATE `lietotaji` SET `parole` = '$2y$10$qV9m4Xthd0vDxXgMW17rC./Yfjd.9AgpCOCKdV
 UPDATE `lietotaji` SET `parole` = '$2y$10$o6qwzkekoPuOtYF5tOL0SOnfgnQN/vJWOIVWFJx42vlM0CrFc3njq' WHERE `lietotaji`.`lietotajs_id` = 5 AND `lietotaji`.`id_darbinieks` = 7; 
 UPDATE `lietotaji` SET `parole` = '$2y$10$aRD43lA4QTpvNzVabK7jC.gXHCk5GD2srYbmTLMMxQx4JliO8AzPC' WHERE `lietotaji`.`lietotajs_id` = 6 AND `lietotaji`.`id_darbinieks` = 8;
 
+
+ALTER TABLE lietotaji
+ADD COLUMN adminpiekluve varchar(3);
+
+
 -- admin 
 CREATE USER 'administrators'@'localhost' IDENTIFIED VIA mysql_native_password USING '***';GRANT USAGE ON *.* TO 'administrators'@'localhost' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
 GRANT ALL PRIVILEGES ON `poliklinika`.* TO 'administrators'@'localhost' WITH GRANT OPTION;
@@ -127,7 +132,6 @@ DELIMITER ;
 
 CALL lietotajaVards('ievaliepina');
 
-CALL lietotajaVards('raivisozols');
 
 -- aprēķina, cik pacientam jāmaksā par vizīti. ja ir ģimenes ārsta nosūtījums, tad maksā 4 EUR. 
 -- Ja ir apdrošināšana, tad pacientam ir jāmaksā uz pusi mazāk. Ja vizīte ir valsts apmaksāta, pacientam nav jāmaksā.
@@ -171,6 +175,8 @@ CALL izmaksas (5);
 -- jāmaksā 5 eur, jo kardiologa apmeklējums ir 10 eur un pacientam ir apdrošināšana.
 CALL izmaksas (3);
 
+
+
 -- skats, kas parāda ģimenes ārstu pēc vārda, uzvārda, nevis pēc id numura
 CREATE VIEW gimenesarstsPacientiem AS
 SELECT pacients_id, p.vards, p.uzvards, p.dzim_datums, CONCAT(d.vards, ' ',d.uzvards) AS gimenesarsts
@@ -180,6 +186,7 @@ ON gimenes_arsts = darbinieks_id;
 
 SELECT * from gimenesarstsPacientiem;
 
+-- parāda visu informāciju (izņemot diagnozes) ieskaitot ģimenes ārstu un adresi
 CREATE VIEW vissParPacientu AS
 SELECT pacients_id, p.vards, p.uzvards, p.personas_kods, p.dzim_datums, p.talrunis, p.epasts, p.nacionalitate, CONCAT(d.vards, ' ',d.uzvards) AS gimenesarsts, 
 CONCAT(a.valsts,', ', a.regions,', ',a.pilseta,', ',a.iela,' ',a.maja,', ',pasta_indekss) AS adrese
@@ -190,6 +197,7 @@ INNER JOIN adrese AS a
 ON a.adrese_id = p.id_adrese;
 
 SELECT * from vissParPacientu;
+
 
 -- skats, kas glītāk izvadīs vizītes datus (reāli uzraksti, nevis cipari) 
 CREATE VIEW vizites AS 
@@ -205,3 +213,28 @@ ON id_arsts = darbinieks_id
 ORDER BY laiks ASC;
 
 SELECT * FROM vizites;
+
+
+-- parāda informāciju par darbinieka 
+CREATE VIEW darbiniekaInfo AS
+SELECT darbinieks_id, vards, uzvards, talrunis, liguma_nr, tips, epasts, lietotajvards, CONCAT(a.valsts,', ', a.regions,', ',a.pilseta,', ',a.iela,' ',a.maja,', ',pasta_indekss) AS adrese
+FROM darbinieki 
+LEFT JOIN lietotaji
+ON darbinieks_id = id_darbinieks
+INNER JOIN adrese AS a
+ON adrese_id = id_adrese;
+
+SELECT * FROM darbiniekaInfo WHERE darbinieks_id = 5;
+
+CREATE VIEW darbSpecialitates AS
+SELECT darbinieks_id, CONCAT(vards,' ', uzvards) AS darbinieks, nosaukums
+FROM darbinieki
+INNER JOIN darbinieka_specialitate 
+ON darbinieks_id = id_darbinieks
+INNER JOIN specialitate
+ON specialitate_id = id_specialitate;
+
+SELECT * FROM darbSpecialitates WHERE darbinieks_id = 3;
+
+CREATE VIEW diagnozes AS
+SELECT pacients_id, id_diagnoze, nosaukums, statuss

@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS `poliklinika`.`lietotaji` (
   `parole` VARCHAR(60) NOT NULL,
   `epasts` VARCHAR(255) NOT NULL,
   `id_darbinieks` INT NOT NULL,
+  `adminpiekluve` ENUM('yes', 'no'),
   PRIMARY KEY (`lietotajs_id`, `id_darbinieks`),
   CONSTRAINT `fk_lietotaji_darbinieki1`
     FOREIGN KEY (`id_darbinieks`)

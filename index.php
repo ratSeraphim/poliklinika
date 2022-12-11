@@ -33,11 +33,15 @@
             <i class="fas fa-users"></i> <br> Pacienti 
             </a>
        
-            <a class="box" href="pakalpojumi.php">
-            <i class="fas fa-suitcase-medical"></i> <br> Pakalpojumi 
+
+        <?php IF ($_SESSION["isadmin"] == "yes") { ?> 
+            <a class="box" href="darbinieki.php">
+            <i class="fas fa-suitcase-medical"></i> <br> Darbinieki
             </a>
+        <?php } ?>
+            
       
-            <a class="box" href="logout.php">
+            <a class="box" href="files/logout.php">
             <i class="fas fa-power-off"></i> <p>Izlogoties</p>
             </a>
     </div>

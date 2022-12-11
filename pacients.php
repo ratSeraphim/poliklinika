@@ -18,6 +18,21 @@
                     $atlasaPacientu = mysqli_query($savienojums, $pacientsSQL) or die ("Nekorekts vaicājums!"); 
 
                     while($row = mysqli_fetch_assoc($atlasaPacientu)){
+                        if(empty($row['personas_kods'])){
+                            $pk = "<i class='fas fa-times'></i>";
+                        } else {
+                            $pk = $row['personas_kods'];
+                        }
+                        if(empty($row['talrunis'])){
+                            $telnr = "<i class='fas fa-times'></i>";
+                        } else {
+                            $telnr = $row['talrunis'];
+                        }
+                        if(empty($row['epasts'])){
+                            $eml = "<i class='fas fa-times'></i>";
+                        } else {
+                            $eml = $row['epasts'];
+                        }
                         echo "
                             <table>
                                 <tr>
@@ -35,13 +50,13 @@
                                     <td>Dzimšanas dati:</td><td class='value'>{$row['dzim_datums']}</td>
                                 </tr>
                                 <tr>
-                                    <td>Personas kods:</td><td class='value'>{$row['personas_kods']}</td>
+                                    <td>Personas kods:</td><td class='value'>{$pk}</td>
                                 </tr>   
                                 <tr>
-                                    <td>Tālrunis:</td><td class='value'>{$row['talrunis']}</td>
+                                    <td>Tālrunis:</td><td class='value'>{$telnr}</td>
                                 </tr>
                                 <tr>
-                                    <td>E-pasts:</td><td class='value'>{$row['epasts']}</td>
+                                    <td>E-pasts:</td><td class='value'>{$eml}</td>
                                 </tr>
                                 <tr>
                                     <td>Dzīves vietas adrese:</td><td class='value'>{$row['adrese']}</td>
@@ -53,10 +68,42 @@
                             </table>  	
                         ";
                     }
+                    // Izvada pacienta diagnozes
+                $diagnozes_SQL = "SELECT * FROM diagnozes WHERE id_pacients = $pacientsID;";
+                $atlasa_diagnozes = mysqli_query($savienojums, $diagnozes_SQL) or die ("Nekorekts vaicājums");
+
+
+                ?> <table>
+                <th> Diagnozes: </th> 
+                <?php
+                if(mysqli_num_rows($atlasa_diagnozes) > 0) {
+                    while($row = mysqli_fetch_assoc($atlasa_diagnozes)){
+
+
+                        echo "
+                        
+                            <tr>
+                                <td>{$row['id_diagnoze']}</td>
+                                <td>{$row['nosaukums']}</td>
+                                <td>{$row['statuss']}</td>
+                            </tr>
+                        
+                        
+                        ";
+                        // $row always contains info about databases
+                    }
+                }else{
+                        echo 
+                        "<tr>
+                        <td  class=none>Pacientam nav diagnozes!</td>
+                        </tr>";
+                }
                 }else{
                     echo "<div class='pazinojums sarkans'>Kaut kas nogāja greizi! Atgriezies sākumlapā un mēģini vēlreiz!</div>";
-                    header("Refresh:2; url=audzekni.php");
-                }          
+                    header("Refresh:2; url=pacienti.php");
+                }        
+                
+                
             ?>
         </div>
     </div>
@@ -67,6 +114,5 @@
         echo"<div class='pazinojums sarkans'>TEV ŠEIT NAV PIEEJAS!</div>";
         header("Refresh: 0, url=login.php");
     }
-
-    include "footer.php";
+include "footer.php";
 ?>

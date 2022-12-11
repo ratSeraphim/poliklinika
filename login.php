@@ -22,11 +22,16 @@
 						//using real_escape_string will prevent SQL injections - it won't let hackers use SQL terms and brackets by turning their SQL query into a harmless string
 						$Lietotajvards = mysqli_real_escape_string($savienojums, $_POST ["lietotajs"]) ;
 						$Parole = mysqli_real_escape_string($savienojums, $_POST ["parole"]) ;
+						
 						$sqlVaicajums = "SELECT * FROM lietotaji WHERE lietotajvards = '$Lietotajvards' ";
 						$rezultats = mysqli_query($savienojums, $sqlVaicajums);
-
-						//use phppasswordhash.com if unable to hash own password
-                        
+						$admin_SQL = "SELECT adminpiekluve FROM lietotaji WHERE lietotajvards = '$Lietotajvards'";
+						$adminpiekluve = mysqli_query($savienojums, $admin_SQL);
+						if(mysqli_num_rows($adminpiekluve) == 1){
+							while($row = mysqli_fetch_array($adminpiekluve)){
+								$_SESSION["isadmin"] = $row["adminpiekluve"];
+							}//use phppasswordhash.com if unable to hash own password
+						}
 
                         //raivisozols parole= Parole1
                         
@@ -35,9 +40,10 @@
 								//does the password in the database match the entered password (works hashed)
 								if(password_verify($Parole, $row["parole"])){
 									$_SESSION["username"] = $Lietotajvards;
+									//pārvieto lietotāju uz sākumlapu
 									header("location:index.php");
 								}else{
-									echo "Nepareizs lietotajvards!";
+									echo "Nepareizs lietotajvards vai parole!";
 								}
 							}
 						} else {
