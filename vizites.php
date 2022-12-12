@@ -4,6 +4,7 @@
 
     if(isset($_SESSION['username'])){
 
+        //pārbauda, kurā lappusē atrodies. Ja nav jau noteikta lappuse, tevi atgriež uz pirmo lappusi
         if (isset($_GET['page']))
         {
             $page = $_GET['page'];
@@ -37,6 +38,7 @@
                 <?php 
                     require ("connect_db.php");
 
+                    // vietnes lappušu kods
                     $LimitPerPage = 4;
                     $offset = ($page -1) * $LimitPerPage;
                     $vizisu_SQL = "SELECT * FROM vizites LIMIT $LimitPerPage OFFSET $offset";
@@ -47,9 +49,11 @@
                     $records = mysqli_fetch_array($res)[0];
                     $totalpages = ceil($records / $LimitPerPage);
 
+                    //ja vaicājuma rindu skaits ir augstāks par 0 (tātad nav tukšs), tad izvada vērtības
                     if(mysqli_num_rows($atlasa_vizites) > 0) {
                         while($row = mysqli_fetch_assoc($atlasa_vizites)){
 
+                            //ja pacientam nav ģimenes ārsta nosūtījums > nav valsts apmaksāts pakalpojums > pacientam nav apdrošināšana, izvada X, savādāk izvada ķeksi
                             if(empty($row['gim_arsta_nosutijums'])){
                                 $nosutijums = "<i class='fas fa-times'></i>";
                             } else {
@@ -68,10 +72,10 @@
 
                            
                             if( strtotime($row['laiks']) > strtotime('now')){
-                                 // Ja vizīte vēl nav pienākusi, tad iekrāsojas sarkana
+                                 // Ja vizītes laiks ir nākotnē, tad tiek iekrāsots sarkans
                                 $apmeklejumaLaiks = "<td class='velak'> {$row['laiks']} </td>";
                             } else {
-                                //Ja vizīte pagājusi, tad iekrāsojas pelēks
+                                // Ja vizītes laiks ir pagājis, tad tiek iekrāsots pelēcīgs
                                 $apmeklejumaLaiks = "<td class='pagajis'> {$row['laiks']} </td>";
                             }
                                 echo "
@@ -97,9 +101,6 @@
                                 </tr>
                            <?php
                             
-                         //   }
-                            
-                            // $row always contains info about databases
                            
                             
                             
@@ -112,17 +113,19 @@
 
             </table>
                 
+            
             <script>
+                //pabrīdina lietotāju, ka tiek veikts dzēšanas mēģinājus
                 function DeleteConfirm() {
-                confirm("Tu izdzēsi ierakstu");
-                }
-                function value(){
-                confirm("Pacientam jāmaksā ")
+                confirm("Tu dzēs ierakstu!");
                 }
             </script>
         </div>
     </div>
 </section>
+
+
+
 
         <div class=lappuses> 
             <!-- 1 lappuse uz atpakaļu -->
@@ -142,6 +145,7 @@
                 &gt;&gt;
             </a>
         </div>
+        <a class="btn-big" href="files\add_appt.php" alt="edit" >Pievienot jaunu</a>
 <?php
     // Ja lietotājs nav ielogojies/nav sesijas, tad atgriež uz logina lapas
     } else {

@@ -12,16 +12,17 @@ if(isset($_SESSION['username'])){
     $result = mysqli_query($savienojums, $sql);
     $row = mysqli_fetch_array($result);
     }
-    //Update Information
+    //Atjauno informāciju (ievieto saņemtos datus mainīgajos)
     if(isset($_POST['btn-update'])){
     $vards = $_POST['vards'];
     $uzvards = $_POST['uzvards'];
     $tips = $_POST['tips'];
     $personas_kods = $_POST['personas_kods'];
     $talrunis = $_POST['talrunis'];
+    $id_adrese = $_POST['id_adrese'];
 
     $update = "UPDATE darbinieki SET vards='$vards', uzvards='$uzvards', tips='$tips',
-                                personas_kods=' $personas_kods',talrunis='$talrunis' WHERE darbinieks_id=". $_GET['edit_id'];
+                                personas_kods=' $personas_kods',talrunis='$talrunis', id_adrese = '$id_adrese' WHERE darbinieks_id=". $_GET['edit_id'];
     $up = mysqli_query($savienojums, $update);
     if(!isset($sql)){
     die ("Error $sql" .mysqli_connect_error());
@@ -31,9 +32,12 @@ if(isset($_SESSION['username'])){
     header("location: ../darbinieki.php");
     }
     }
+//saņem datus priekš dropdown izvēlnes
+    $pieejamasadreses = "SELECT * FROM `adreseOneLine`";
+    $adreses = mysqli_query($savienojums, $pieejamasadreses);
     ?>
-    <!--Create Edit form -->
-
+    <!--Rediģēšanas saskarsne -->
+    <!-- value="php.." attēlo ieraksta jau esošos datus -->
    
     <body>
         <div id="container">
@@ -50,6 +54,19 @@ if(isset($_SESSION['username'])){
     </select><br/><br/>
     <label>Personas kods:</label><input type="text" name="personas_kods" placeholder="Personas kods" value="<?php echo $row['personas_kods']; ?>" required><br/><br/>
     <label>Tālrunis:</label><input type="text" maxlength="12" name="talrunis" placeholder="00000000" value="<?php echo $row['talrunis']; ?>" required><br/><br/>
+    <!-- Paņem ierakstus no datubāzes un attēlo kā dropdown opcijas-->
+    <label>Adrese:</label>
+    <select name="id_adrese">
+        <option ><?php echo $row['id_adrese']; ?></option>
+        <?php 
+        while($row2 = mysqli_fetch_assoc($adreses)){
+            ?>
+            
+            <option value="<?=$row2['adrese_id']?>"><?=$row2['adrese_id']?> - <?=$row2['adrese']?></option>
+             <?php
+            } 
+        ?>
+    </select><br/><br/>
     <button class="btn" type="submit" name="btn-update" id="btn-update" onClick="update()">Izmainīt</button>
     <a href="../darbinieki.php"><button class="btn-danger" type="button" value="button">Atpakaļ</button></a>
 
@@ -60,7 +77,7 @@ if(isset($_SESSION['username'])){
         </div>  
     </div>
 
-    <!-- Alert for Updating -->
+    <!-- Paziņo, ka tiek veiktas izmaiņas -->
     <script>
     function update(){
     var x;

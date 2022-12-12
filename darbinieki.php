@@ -2,6 +2,8 @@
     $page ="darbinieki";
     require "header.php";
 
+
+    //piekļūst tikai ielogojušies lietotāji ar administratora piekļuvi
     if(isset($_SESSION['username'])){
         if($_SESSION["isadmin"] == "yes"){
  ?>
@@ -57,7 +59,6 @@
                             
                     </tr>
                     <?php
-                            // $row always contains info about databases
                         }
                     }else{
                         echo "Tabulā nav datu ko attēlot!";
@@ -70,8 +71,9 @@
 </section>
 
 <script>
+    //pabrīdina lietotāju, ka tiek veikts dzēšanas mēģinājus
         function DeleteConfirm() {
-        confirm("Tu izdzēsi ierakstu");
+        confirm("Tu dzēs ierakstu!");
         }
 </script>
 

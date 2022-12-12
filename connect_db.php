@@ -10,6 +10,7 @@
 	if(!$savienojums){
 		die("Pieslēgties neizdevās: ".mysqli_connect_error());
 	} else {
+		#atkomentēt tikai lai testētu!
 		#echo "Savienojums ar datubāzi ir veiksmīgi izveidots!";
 	}
 ?>

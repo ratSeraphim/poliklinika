@@ -77,7 +77,6 @@
                             </tr>
                         
                         ";
-                        // $row always contains info about databases
                     }
                 }else{
                         echo 
@@ -93,6 +92,7 @@
 
 <?php
         } else {
+            echo "<div class='pazinojums sarkans'>TEV ŠEIT NAV PIEEJAS!</div>";
             header("Refresh: 0;url=index.php");
         }
     } else {

@@ -6,6 +6,7 @@
 require '../connect_db.php';
 if(isset($_POST['submit']))
 {    
+    //saņem datus no ievietošanas laukiem un ievieto mainīgajos
     $vards = $_POST['vards'];
     $uzvards = $_POST['uzvards'];
     $gimenes_arsts = $_POST['gimenes_arsts'];
@@ -15,6 +16,8 @@ if(isset($_POST['submit']))
     $epasts = $_POST['epasts'];
     $nacionalitate = $_POST['nacionalitate'];
     $id_adrese = $_POST['id_adrese'];
+
+    //mainīgos ievieto SQL vaicājumā, lai ievietotu datubāzē
      $sql = "INSERT INTO pacienti (vards, uzvards, personas_kods, dzim_datums, talrunis, epasts, nacionalitate, gimenes_arsts, id_adrese)
      VALUES ('$vards','$uzvards', '$personas_kods', '$dzim_datums', '$talrunis', '$epasts', '$nacionalitate','$gimenes_arsts', '$id_adrese')";
     

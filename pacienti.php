@@ -4,7 +4,7 @@
 
     if(isset($_SESSION['username'])){
         
-        
+          //pārbauda, kurā lappusē atrodies. Ja nav jau noteikta lappuse, tevi atgriež uz pirmo lappusi
         if (isset($_GET['page']))
         {
             $page = $_GET['page'];
@@ -32,7 +32,7 @@
                     
                 <?php 
                     require ("connect_db.php");
-
+            // vietnes lappušu kods
                     $LimitPerPage = 4;
                     $offset = ($page -1) * $LimitPerPage;
 
@@ -44,6 +44,7 @@
                     $pacientu_SQL = "SELECT * from gimenesarstsPacientiem LIMIT $LimitPerPage OFFSET $offset";
                     $atlasa_pacientus = mysqli_query($savienojums, $pacientu_SQL) or die ("Nekorekts vaicājums");
 
+                    //ja vaicājuma rindu skaits ir augstāks par 0 (tātad nav tukšs), tad izvada vērtības
                     if(mysqli_num_rows($atlasa_pacientus) > 0) {
                         while($row = mysqli_fetch_assoc($atlasa_pacientus)){
 
@@ -62,6 +63,7 @@
                                         </button>
                                         ";
                                         ?>
+                                        <!-- pogas, kas pārved uz kodu kas nodrošina datu rediģēšanu vai dzēšanu -->
                                         <td>
                                         <a class="btn-danger" onclick="DeleteConfirm()" href="files\delete_patient.php?pacients_id=<?php echo $row['pacients_id']; ?>">
                                             Dzēst
@@ -73,7 +75,7 @@
                                 </tr>
                                 <?php
                                         
-                            // $row always contains info about databases
+
                         }
                     }else{
                         echo "Tabulā nav datu ko attēlot!";
@@ -86,14 +88,9 @@
     </div>
 </section>
 
-<a class="btn" href="files\add_patient.php" alt="edit" >Pievienot jaunu</a>
 
 
-<script>
-        function DeleteConfirm() {
-        confirm("Tu izdzēsi ierakstu");
-        }
-</script>
+
 
 <div class=lappuses> 
             <!-- 1 lappuse uz atpakaļu -->
@@ -114,6 +111,14 @@
             </a>
         </div>
 
+        
+<a class="btn-big" href="files\add_patient.php" alt="edit" >Pievienot jaunu</a>
+<script>
+    //pabrīdina lietotāju, ka tiek veikts dzēšanas mēģinājus
+        function DeleteConfirm() {
+        confirm("Tu dzēs ierakstu!");
+        }
+</script>
 <?php
     } else {
         echo "<div class='pazinojums sarkans'>TEV ŠEIT NAV PIEEJAS!</div>";

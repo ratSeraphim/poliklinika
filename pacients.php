@@ -18,6 +18,7 @@
                     $atlasaPacientu = mysqli_query($savienojums, $pacientsSQL) or die ("Nekorekts vaicājums!"); 
 
                     while($row = mysqli_fetch_assoc($atlasaPacientu)){
+                        // ja pacientam nav personas kods (nav latviešu tautības), tālruņa numurs vai e-pasts (iespējams ir bērns), tad vērtības vietā izvada krustiņu
                         if(empty($row['personas_kods'])){
                             $pk = "<i class='fas fa-times'></i>";
                         } else {
@@ -93,9 +94,10 @@
                         
                         
                         ";
-                        // $row always contains info about databases
+                     
                     }
                 }else{
+                    // Ja diagnozes vaicājumam nav rezultātu, tas nozīmē, ka pacientam nav diagnozes
                         echo 
                         "<tr>
                         <td  class=none>Pacientam nav diagnozes!</td>
@@ -108,6 +110,7 @@
                 
                 
             ?>
+            </table>
         </div>
     </div>
 </section>
@@ -117,5 +120,5 @@
         echo"<div class='pazinojums sarkans'>TEV ŠEIT NAV PIEEJAS!</div>";
         header("Refresh: 0, url=login.php");
     }
-
+    include "footer.php";
 ?>

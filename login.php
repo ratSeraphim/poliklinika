@@ -14,30 +14,33 @@
 				<img class="logo" src="images/medlogo.png">
 				<h1>Ielogoties sistēmā</h1>
 				<?php 
-				//if button is pressed
+				//Kad poga tiek nospiesta
 					if(isset($_POST['autorizeties'])){
 						require("connect_db.php");
-						//all pages that require sessions NEED to start sessions first
+						//visām lapām, kurām nepieciešamas sesijas, sesija ir jāuzsāk
 						session_start();
-						//using real_escape_string will prevent SQL injections - it won't let hackers use SQL terms and brackets by turning their SQL query into a harmless string
+						//izmantojot real_escape_string sevi pasargi no SQL injekcijām. neliešu SQL terminus un iekavas (vaicājumus) pārtaisa par tekstu (string) 
 						$Lietotajvards = mysqli_real_escape_string($savienojums, $_POST ["lietotajs"]) ;
 						$Parole = mysqli_real_escape_string($savienojums, $_POST ["parole"]) ;
 						
+						//pārbauda, vai šāds lietotājs datubāzē pastāv
 						$sqlVaicajums = "SELECT * FROM lietotaji WHERE lietotajvards = '$Lietotajvards' ";
 						$rezultats = mysqli_query($savienojums, $sqlVaicajums);
+
+						//pārbauda, vai lietotājam būs administratora piekļuve (attēlos datus, ko parastie lietotāji nevar aiztikt)
 						$admin_SQL = "SELECT adminpiekluve FROM lietotaji WHERE lietotajvards = '$Lietotajvards'";
 						$adminpiekluve = mysqli_query($savienojums, $admin_SQL);
 						if(mysqli_num_rows($adminpiekluve) == 1){
 							while($row = mysqli_fetch_array($adminpiekluve)){
 								$_SESSION["isadmin"] = $row["adminpiekluve"];
-							}//use phppasswordhash.com if unable to hash own password
+							}
 						}
+						//use phppasswordhash.com if unable to hash own password
 
-                        //raivisozols parole= Parole1
                         
 						if(mysqli_num_rows($rezultats) == 1){
 							while($row = mysqli_fetch_array($rezultats)){
-								//does the password in the database match the entered password (works hashed)
+								//vai ievadītā parole saskan ar datubāzes paroli? (strādā tikai hašots)
 								if(password_verify($Parole, $row["parole"])){
 									$_SESSION["username"] = $Lietotajvards;
 									//pārvieto lietotāju uz sākumlapu
@@ -50,11 +53,12 @@
 							echo "Nepareizs lietotajvards vai parole!";
 						}
 					}
-
+					//ja padots signāls no izlogošanās pogas, tad sesija tiek iznīcināta
 					if(isset($GET['logout'])){
 						session_destroy();
 					}
 				?>
+				
 				<input type="text" name="lietotajs" placeholder="Lietotājvārds" />
 				<input type="password" name="parole" placeholder="Parole" />
 				<input class="ghost" type="submit" name="autorizeties" value="ielogoties">

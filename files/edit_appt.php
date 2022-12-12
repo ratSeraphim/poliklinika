@@ -13,7 +13,7 @@ if(isset($_SESSION['username'])){
     $result = mysqli_query($savienojums, $sql);
     $row = mysqli_fetch_array($result);
     }
-    //Update Information
+     //Atjauno informāciju (ievieto saņemtos datus mainīgajos)
     if(isset($_POST['btn-update'])){
     $patientid = $_POST['id_pacients'];
     $doctorid = $_POST['id_arsts'];
@@ -36,35 +36,102 @@ if(isset($_SESSION['username'])){
     header("location: ../vizites.php");
     }
     }
+
+    require '../connect_db.php';
+    //saņem datus priekš dropdown izvēlnes
+    $pieejamiepakalpojumi = "SELECT * FROM `pakalpojums`";
+    $pakalpojumi = mysqli_query($savienojums,$pieejamiepakalpojumi);
+
+    $pieejamiearsti = "SELECT * FROM `arsti`";
+    $arsti = mysqli_query($savienojums, $pieejamiearsti);
+
+    $pieejamiepacienti = "SELECT * FROM `pacienti`";
+    $pacienti = mysqli_query($savienojums, $pieejamiepacienti);
+
+    $pieejamikabineti = "SELECT * FROM `kabinets`";
+    $kabineti = mysqli_query($savienojums, $pieejamikabineti);
     ?>
-    <!--Create Edit form -->
+    <!--Rediģēšanas saskarsne -->
+    <!-- value="php.." attēlo ieraksta jau esošos datus -->
 
    
     <body>
         <div id="container">
     <form method="post">
     <h1>Rediģēt vizītes datus</h1>
-    <label>Pacienta ID:</label><input type="text" name="id_pacients" placeholder="Pacienta ID" value="<?php echo $row['id_pacients']; ?>" required><br/><br/>
-    <label>Daktera ID:</label><input type="text" name="id_arsts" placeholder="Daktera ID" value="<?php echo $row['id_arsts']; ?>" required><br/><br/>
+    <!-- Paņem ierakstus no datubāzes un attēlo kā dropdown opcijas-->
+    <label>Pacients:</label>
+    <select name="id_pacients">
+        <option><?php echo $row['id_pacients']; ?></option>
+        <?php 
+        while($row2 = mysqli_fetch_assoc($pacienti)){
+            ?>
+            <option value="<?=$row2['pacients_id']?>"><?=$row2['pacients_id']?> - <?=$row2['vards']?> <?=$row2['uzvards']?></option>
+             <?php
+            } 
+        ?>
+    </select><br/><br/>
+    
+    <label>Ārsts:</label>
+    <select name="id_arsts">
+        <option ><?php echo $row['id_arsts']; ?></option>
+        <?php 
+        while($row2 = mysqli_fetch_assoc($arsti)){
+            ?>
+            <option value="<?=$row2['darbinieks_id']?>"><?=$row2['darbinieks_id']?> - <?=$row2['vards']?> <?=$row2['uzvards']?></option>
+             <?php
+            } 
+        ?>
+    </select><br/><br/>
+    
     <label>Laiks:</label><input type="datetime-local" name="laiks" placeholder="Laiks" value="<?php echo $row['laiks']; ?>" required><br/><br/>
-    <label>Pakalpojuma ID:</label><input type="text" name="id_pakalpojums" placeholder="Pakalpojuma ID" value="<?php echo $row['id_pakalpojums']; ?>" required><br/><br/>
+
+    <label>Pakalpojums:</label>
+
+<select name="id_pakalpojums">
+   <option><?php echo $row['id_pakalpojums']; ?></option>
+   <?php 
+    while($row2 = mysqli_fetch_assoc($pakalpojumi)){
+        ?>
+        <option value="<?=$row2['pakalpojums_id']?>"><?=$row2['pakalpojums_id']?> - <?=$row2['nosaukums']?></option>
+         <?php
+        } 
+    ?>
+</select><br/><br/>
+
     <label>Ģimenes ārsta nosūtījums:</label> 
     <select name="gim_arsta_nosutijums">
-            <option value=1>Jā</option>
-            <option value=0>Nē</option>
+            <option><?php echo $row['gim_arsta_nosutijums']; ?></option>
+            <option value=1>1- Jā</option>
+            <option value=0>0- Nē</option>
             <option value=null>Ģimenes ārsta apmeklējums</option>
     </select><br/><br/>
+
     <label>Valsts apmaksāts:</label>
     <select name="valsts_apmaksats" required>
-            <option value=1>Jā</option>
-            <option value=0>Nē</option>
+            <option><?php echo $row['valsts_apmaksats']; ?></option>
+            <option value=1>1 - Jā</option>
+            <option value=0>0 - Nē</option>
     </select><br/><br/>
+
     <label>Apdrošināšana:</label>
     <select name="apdrosinasana" required>
-            <option value=1>Jā</option>
-            <option value=0>Nē</option>
+            <option><?php echo $row['apdrosinasana']; ?></option>
+            <option value=1>1 - Jā</option>
+            <option value=0>0 - Nē</option>
     </select><br/><br/>
-    <label>Kabinets:</label><input type="text" name="id_kabinets" placeholder="id_kabinets" value="<?php echo $row['id_kabinets']; ?>" required><br/><br/>
+
+    <label>Kabinets:</label>
+    <select name="id_kabinets">
+        <option><?php echo $row['id_kabinets']; ?></option>
+            <?php 
+        while($row2 = mysqli_fetch_assoc($kabineti)){
+            ?>
+            <option value="<?=$row2['kabinets_id']?>"><?=$row2['kabinets_id']?></option>
+             <?php
+            } 
+        ?>
+        </select> <br> <br>
     <button class="btn" type="submit" name="btn-update" id="btn-update" onClick="update()">Izmainīt</button>
     <a href="../vizites.php"><button class="btn-danger" type="button" value="button">Atpakaļ</button></a>
 
@@ -75,7 +142,7 @@ if(isset($_SESSION['username'])){
         </div>  
     </div>
 
-    <!-- Alert for Updating -->
+   <!-- Paziņo, ka tiek veiktas izmaiņas -->
     <script>
     function update(){
     var x;

@@ -1,0 +1,15 @@
+https://programmopedia.com/php-mysql-delete-row/
+https://www.softaox.info/how-to-editupdate-records-from-mysqli-via-textbox-in-php/
+https://www.tutorialrepublic.com/php-tutorial/php-mysql-insert-query.php
+https://www.tutsmake.com/php-code-insert-data-into-mysql-database-from-form/
+https://www.formget.com/read-mysql-data-using-php/
+https://www.geeksforgeeks.org/create-a-drop-down-list-that-options-fetched-from-a-mysql-database-in-php/
+
+
+W3schools
+stackoverflow
+https://fontawesome.com
+storyset.com
+https://dba.stackexchange.com/
+
+Skolotāja Rāvalda Kristapa un Kristovska Raimonda izstrādātie mācību materiāli

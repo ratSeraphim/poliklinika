@@ -1,3 +1,5 @@
+<!--Tas pats, kas header.php, tikai priekš failiem iekš /files/, jo saites ir citādas!-->
+
 <!DOCTYPE html>
 <html lang="lv">
 <head>

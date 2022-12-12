@@ -3,10 +3,10 @@
 session_start();
 require '../connect_db.php';
 
-// add function to prevent admin and owner deletion !! 
 
     $id = $_GET['darbinieks_id']; //saņem vērtību
     $parbaudit = mysqli_query($savienojums, "CALL vaiAdmins('$id')");
+    //pārbauda, vai izvēlētais darbinieks ir lietotājs ar administratora piekļuvi
     while($row=mysqli_fetch_assoc($parbaudit))
         {
             if($row['output'] == 1){
@@ -20,6 +20,8 @@ require '../connect_db.php';
         
         require '../connect_db.php';
         if($output == 1){
+            //ja lietotājam ir administratora piekļuve, tad to var dzēst tikai caur datubāzi. šādi pasargā no iespējas, ka 
+            //lietotājs nejauši izdzēš sevi!
             echo "<div class='pazinojums sarkans'>Šo lietotāju nevar izdzēst!</div>
     
             <a href='../darbinieki.php'><button class='btn-danger' type='button' value='button'>Atpakaļ</button></a>";

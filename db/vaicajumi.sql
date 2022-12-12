@@ -268,4 +268,23 @@ FROM pacienta_diagnoze
 INNER JOIN diagnoze
 ON id_diagnoze = diagnozes_kods;
 
+-- skats tiks izmantots, lai pie vizīšu ievietošanas/rediģēšanas var ievietot tikai speciālistus (ārstus)
+CREATE VIEW arsti AS
+SELECT * FROM darbinieki
+WHERE tips = "Speciālists";
 
+SELECT * FROM arsti;
+
+-- skats tiks izmantots, lai pie pacientu ievietošanas/rediģēšanas var ievietot tikai ģimenes ārstus
+CREATE VIEW gimenesarsti AS 
+SELECT * FROM darbinieki 
+INNER JOIN darbinieka_specialitate
+ON darbinieks_id = id_darbinieks
+WHERE id_specialitate = 3;
+
+SELECT * FROM gimenesarsti;
+
+
+CREATE VIEW adreseOneLine AS
+SELECT CONCAT(valsts,', ', regions,', ',pilseta,', ',iela,' ',maja,', ',pasta_indekss) AS adrese
+FROM adrese;
