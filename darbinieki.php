@@ -45,8 +45,18 @@
 
                                         </form>
                                     </td>
-                                </tr>
-                            ";
+
+                            ";?>
+                            <td>
+                            <a class="btn-danger" onclick="DeleteConfirm()" href="files\delete_worker.php?darbinieks_id=<?php echo $row['darbinieks_id']; ?>">
+                                Dzēst
+                            </a>
+                            <a class="btn" href="files\edit_worker.php?edit_id=<?php echo $row['darbinieks_id']; ?>" alt="edit" >Rediģēt</a>
+                            </form>
+                        </td>
+                            
+                    </tr>
+                    <?php
                             // $row always contains info about databases
                         }
                     }else{
@@ -58,6 +68,12 @@
         </div>
     </div>
 </section>
+
+<script>
+        function DeleteConfirm() {
+        confirm("Tu izdzēsi ierakstu");
+        }
+</script>
 
 <?php
         } else {

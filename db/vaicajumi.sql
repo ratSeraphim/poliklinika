@@ -85,6 +85,8 @@ INSERT INTO pacienti (vards, uzvards, personas_kods, dzim_datums, talrunis, epas
 ('Sofija', 'Moroza', '', '2015-06-27', '', '', 'Ukrainiete', 3, 9),
 ('Gundars', 'Ingvers', '210219-21676', '2019-02-21', '', '','Latvietis', 7, 11);
 
+
+
 INSERT INTO pacienta_diagnoze VALUES
 (1, 'M75.1', 'Aktīvs'),
 (5, 'J10.0', 'Izārstēts'),
@@ -110,8 +112,6 @@ UPDATE `lietotaji` SET `parole` = '$2y$10$o6qwzkekoPuOtYF5tOL0SOnfgnQN/vJWOIVWFJ
 UPDATE `lietotaji` SET `parole` = '$2y$10$aRD43lA4QTpvNzVabK7jC.gXHCk5GD2srYbmTLMMxQx4JliO8AzPC' WHERE `lietotaji`.`lietotajs_id` = 6 AND `lietotaji`.`id_darbinieks` = 8;
 
 
-ALTER TABLE lietotaji
-ADD COLUMN adminpiekluve varchar(3);
 
 
 -- admin 
@@ -132,6 +132,31 @@ DELIMITER ;
 
 CALL lietotajaVards('ievaliepina');
 
+-- ja lietotājam ir admin piekļuve, tad output ir 1. Ja lietotājam nav, tad output ir 0. Procedūra palīdzēs nodrošināt, ka nevar izdzēst lietotājus, kuriem ir admin piekļuve
+DELIMITER $$
+CREATE PROCEDURE vaiAdmins (IN darbID INT)
+BEGIN
+	DECLARE isadmin VARCHAR(3);
+	DECLARE output TINYINT;
+    
+	SELECT adminpiekluve
+    INTO isadmin
+	FROM lietotaji 
+    INNER JOIN darbinieki
+    ON id_darbinieks = darbinieks_id
+    WHERE darbinieks_id = darbID;
+    
+    IF isadmin = 'yes' THEN
+		SET output = 1;
+	ELSEIF isadmin = 'no' THEN
+		SET output = 0;
+	END IF;
+    SELECT output;
+END $$
+DELIMITER ;
+
+CALL vaiAdmins (4);
+CALL vaiAdmins (1);
 
 -- aprēķina, cik pacientam jāmaksā par vizīti. ja ir ģimenes ārsta nosūtījums, tad maksā 4 EUR. 
 -- Ja ir apdrošināšana, tad pacientam ir jāmaksā uz pusi mazāk. Ja vizīte ir valsts apmaksāta, pacientam nav jāmaksā.
@@ -236,8 +261,11 @@ ON specialitate_id = id_specialitate;
 
 SELECT * FROM darbSpecialitates WHERE darbinieks_id = 3;
 
+-- skats, kas atbild par pacienta diagnožu attēlot
 CREATE VIEW diagnozes AS
 SELECT id_pacients, id_diagnoze, nosaukums, statuss
 FROM pacienta_diagnoze 
 INNER JOIN diagnoze
 ON id_diagnoze = diagnozes_kods;
+
+

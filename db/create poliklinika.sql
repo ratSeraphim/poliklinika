@@ -81,14 +81,14 @@ CREATE TABLE IF NOT EXISTS `poliklinika`.`pacienti` (
   `talrunis` VARCHAR(12) NULL,
   `epasts` VARCHAR(255) NULL,
   `nacionalitate` VARCHAR(45) NOT NULL,
-  `gimenes_arsts` INT NOT NULL,
+  `gimenes_arsts` INT,
   `id_adrese` INT NOT NULL,
   PRIMARY KEY (`pacients_id`),
   CONSTRAINT `fk_pacienti_darbinieki1`
     FOREIGN KEY (`gimenes_arsts`)
     REFERENCES `poliklinika`.`darbinieki` (`darbinieks_id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_pacienti_adrese1`
     FOREIGN KEY (`id_adrese`)
     REFERENCES `poliklinika`.`adrese` (`adrese_id`)

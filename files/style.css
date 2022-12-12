@@ -236,6 +236,21 @@ footer{
     color:var(--main-color);
 }
 
+.btn-big{
+    display: block;
+    background-color: var(--main-color);
+    width: 50%;
+    padding: 1rem;
+    margin: 5rem auto;
+    border-radius: .5rem;
+    color:rgb(179, 250, 226)
+}
+
+.btn-big:hover{
+    background-color: var(--black);
+    color:var(--main-color);
+}
+
 .lappuses{
     display: flex;
     margin: 1rem;
@@ -328,7 +343,7 @@ select:hover{
 .pazinojums{
     font-size: 2rem;
     text-align: center;
-    margin: 5rem;
+    margin: 15rem 5rem 5rem;
     padding: 3rem;
     color: #EEE;
     border-radius: .5rem;
@@ -337,4 +352,8 @@ select:hover{
 
 .sarkans{
     background: #a14141;
+}
+
+.zals{
+    background: #385336;
 }

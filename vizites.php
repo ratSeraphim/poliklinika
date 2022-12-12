@@ -90,7 +90,8 @@
                                     <a class="btn-danger" onclick="DeleteConfirm()" href="files\delete_appt.php?vizite_id=<?php echo $row['vizite_id']; ?>">
                                         Dzēst
                                     </a>
-                                    <a class="btn" href="files\edit_appt.php?edit_id=<?php echo $row['vizite_id']; ?>" alt="edit" >Edit</a>
+                                    <a class="btn" href="files\edit_appt.php?edit_id=<?php echo $row['vizite_id']; ?>" alt="edit" >Rediģēt</a>
+                                    <a class="btn" href="files\addup.php?edit_id=<?php echo $row['vizite_id']; ?>" alt="edit" >Aprēķins</a>
                                     </td>
                                     
                                 </tr>
@@ -107,14 +108,13 @@
                         echo "Tabulā nav datu ko attēlot!";
                     }
 
-                    
                 ?>
 
             </table>
                 
             <script>
                 function DeleteConfirm() {
-                confirm("Vai esi pārliecināts, ka vēlies dzēst ierakstu?");
+                confirm("Tu izdzēsi ierakstu");
                 }
                 function value(){
                 confirm("Pacientam jāmaksā ")

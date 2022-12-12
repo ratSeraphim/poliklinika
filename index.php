@@ -46,6 +46,7 @@
             </a>
     </div>
 
+    <!-- Add statistics -->
 
 </body>
 </html>

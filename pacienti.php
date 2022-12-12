@@ -81,9 +81,19 @@
                 ?>
 
             </table>
+
         </div>
     </div>
 </section>
+
+<a class="btn" href="files\add_patient.php" alt="edit" >Pievienot jaunu</a>
+
+
+<script>
+        function DeleteConfirm() {
+        confirm("Tu izdzēsi ierakstu");
+        }
+</script>
 
 <div class=lappuses> 
             <!-- 1 lappuse uz atpakaļu -->
