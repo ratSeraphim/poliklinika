@@ -16,7 +16,7 @@ if(isset($_SESSION['username'])){
 <body>
     <div id="container">
         <!-- kad lietotājs nospiež submit pogu, tad atlasītie dati tiek nosūtīti uz kodu,
-         kas atrodas norādītajā failā-->
+         kas atrodas norādītajā failā (action="...")-->
         <form action="insert_diagnose.php" method="post">
             <h1>Ievietot diagnozi</h1>
             <label>Diagnozes kods:</label><input type="text" name="diagnozes_kods" placeholder="diagnozes kods"  required><br/><br/>
@@ -53,6 +53,7 @@ if(isset($_SESSION['username'])){
                     <?php
                     } 
                 ?>
+                <!-- Dod lietotājam izvēles opcijas -->
             </select><br/><br/>
             <label>Statuss:</label>
             <select name="statuss">

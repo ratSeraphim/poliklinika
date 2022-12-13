@@ -99,6 +99,7 @@ if(isset($_SESSION['username'])){
     ?>
 </select><br/><br/>
 
+<!-- Dod lietotājam izvēles opcijas, ieskaitot jau esošo opciju -->
     <label>Ģimenes ārsta nosūtījums:</label> 
     <select name="gim_arsta_nosutijums">
             <option><?php echo $row['gim_arsta_nosutijums']; ?></option>

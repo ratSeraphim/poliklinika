@@ -19,6 +19,7 @@ if(isset($_POST['submit']))
      $sql = "INSERT INTO vizite (id_pacients, id_arsts, id_pakalpojums, gim_arsta_nosutijums, valsts_apmaksats, apdrosinasana, id_kabinets, laiks)
      VALUES ('$id_pacients','$id_arsts', '$id_pakalpojums', '$gim_arsta_nosutijums', '$valsts_apmaksats', '$apdrosinasana', '$id_kabinets','$laiks')";
     
+    // ja vaicājums izdodas, tad izrāda paziņojumu, ka ieraksts ir pievienots
     if(mysqli_query($savienojums, $sql)){
         echo "<div class='pazinojums sarkans'>Ieraksts pievienots veiksmīgi</div>
         
