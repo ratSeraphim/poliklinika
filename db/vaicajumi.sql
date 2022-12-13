@@ -1,8 +1,10 @@
-use poliklinika;
-
 -- admin 
 CREATE USER 'administrators'@'localhost' IDENTIFIED VIA mysql_native_password USING '***';GRANT USAGE ON *.* TO 'administrators'@'localhost' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
 GRANT ALL PRIVILEGES ON `poliklinika`.* TO 'administrators'@'localhost' WITH GRANT OPTION;
+
+use poliklinika;
+
+
 
 INSERT INTO adrese (valsts, regions, pilseta, iela, maja, pasta_indekss) VALUES 
 ('Latvija', 'Rīga', 'Rīga', 'Šampētera iela', '5', 'LV-1046'),
@@ -25,7 +27,7 @@ INSERT INTO darbinieki (vards, uzvards, tips, personas_kods, talrunis, liguma_nr
 ('Aiva', 'Laiva', 'Speciālists', '050895-78953', '25670050', '2087932765', 1),
 ('Raivis', 'Ozols', 'Administrators', '111189-79560', '20993466', '1208634678', 4),
 ('Uldis', 'Jaunzemis', 'Apkopējs', '200202-69753', '230160345', '1040569083', 5),
-('Olga', 'Petrovska', 'Māsa', '210697-46312', '20677545', '10897056079', 7),
+('Olga', 'Petrovska', 'Māsa', '210697-46312', '20677545', '1089705609', 7),
 ('Igors', 'Kronis', 'Speciālists', '206442-50604', '20808080', '120546080', 8),
 ('Valters', 'Humberts', 'Speciālists', '206775-20604', '24540888', '1075502574', 6);
 
@@ -91,7 +93,7 @@ INSERT INTO pacienti (vards, uzvards, personas_kods, dzim_datums, talrunis, epas
 
 
 
-INSERT INTO pacienta_diagnoze VALUES
+INSERT INTO pacienta_diagnoze (id_pacients, id_diagnoze, statuss) VALUES
 (1, 'M75.1', 'Aktīvs'),
 (5, 'J10.0', 'Izārstēts'),
 (2, 'Z88.5', 'Aktīvs'),
@@ -251,7 +253,7 @@ SELECT * FROM darbiniekaInfo WHERE darbinieks_id = 5;
 
 -- parāda informāciju par darbinieka specialitātēm
 CREATE VIEW darbSpecialitates AS
-SELECT darbinieks_id, CONCAT(vards,' ', uzvards) AS darbinieks, nosaukums
+SELECT darbinieka_specialitate_id, specialitate_id, darbinieks_id, CONCAT(vards,' ', uzvards) AS darbinieks, nosaukums
 FROM darbinieki
 INNER JOIN darbinieka_specialitate 
 ON darbinieks_id = id_darbinieks
@@ -262,7 +264,7 @@ SELECT * FROM darbSpecialitates WHERE darbinieks_id = 3;
 
 -- skats, kas atbild par pacienta diagnožu attēlot
 CREATE VIEW diagnozes AS
-SELECT id_pacients, id_diagnoze, nosaukums, statuss
+SELECT id_pacients, id_diagnoze, pacienta_diagnoze_id, nosaukums, statuss
 FROM pacienta_diagnoze 
 INNER JOIN diagnoze
 ON id_diagnoze = diagnozes_kods;

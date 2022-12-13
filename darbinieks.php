@@ -73,10 +73,13 @@
                         echo "
                         
                             <tr>
-                                <td>{$row['nosaukums']}</td>
+                                <td>{$row['nosaukums']}</td> ";
+                                ?>
+                               <td><a class="btn-danger" onclick="DeleteConfirm()" href="files\specialty\remove_specialty.php?darbinieka_specialitate_id=<?php echo $row['darbinieka_specialitate_id']; ?>">
+                                Dzēst
+                                </a></td>
                             </tr>
-                        
-                        ";
+                        <?php
                     }
                 }else{
                         echo 

@@ -170,10 +170,11 @@ ENGINE = InnoDB;
 -- Table `poliklinika`.`pacienta_diagnoze`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `poliklinika`.`pacienta_diagnoze` (
+`pacienta_diagnoze_id` INT NOT NULL AUTO_INCREMENT,
   `id_pacients` INT NOT NULL,
   `id_diagnoze` VARCHAR(5) NOT NULL,
   `statuss` ENUM('Izmeklēšanā', 'Aktīvs', 'Izārstēts') NOT NULL DEFAULT 'Izmeklēšanā',
-  PRIMARY KEY (`id_pacients`, `id_diagnoze`),
+  PRIMARY KEY (`pacienta_diagnoze_id`, `id_pacients`, `id_diagnoze`),
   CONSTRAINT `fk_pacienti_has_diagnoze_pacienti1`
     FOREIGN KEY (`id_pacients`)
     REFERENCES `poliklinika`.`pacienti` (`pacients_id`)
@@ -201,9 +202,10 @@ ENGINE = InnoDB;
 -- Table `poliklinika`.`darbinieka_specialitate`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `poliklinika`.`darbinieka_specialitate` (
+`darbinieka_specialitate_id` INT NOT NULL AUTO_INCREMENT,
   `id_darbinieks` INT NOT NULL,
   `id_specialitate` INT NOT NULL,
-  PRIMARY KEY (`id_darbinieks`, `id_specialitate`),
+  PRIMARY KEY (`darbinieka_specialitate_id`, `id_darbinieks`, `id_specialitate`),
   CONSTRAINT `fk_darbinieki_has_specialitate_darbinieki1`
     FOREIGN KEY (`id_darbinieks`)
     REFERENCES `poliklinika`.`darbinieki` (`darbinieks_id`)

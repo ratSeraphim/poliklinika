@@ -7,18 +7,21 @@ if(isset($_SESSION['username'])){
     //saņem datus priekš dropdown izvēlnes
 
 
-
 ;?>
 
 <body>
     <div id="container">
         <!-- kad lietotājs nospiež submit pogu, tad atlasītie dati tiek nosūtīti uz kodu,
          kas atrodas norādītajā failā-->
-        <form action="insert_treatment.php" method="post">
-            <h1>Ievietot pakalpojumu</h1>
-            <label>Nosaukums:</label><input type="text" name="nosaukums" placeholder="Pakalpojuma nosaukums"  required><br/><br/>
-            <label>Apraksts:</label><input type="text" name="apraksts" placeholder="Pakalpojuma apraksts" required><br/><br/>
-            <label>Cena:</label><input type="number" name="cena" placeholder="0.00" min="1" step="any"  required><br/><br/>
+        <form action="insert_address.php" method="post">
+            <h1>Ievietot adresi</h1>
+            <label>Valsts:</label><input type="text" name="valsts" placeholder="Valsts"  required><br/><br/>
+            <label>Reģions:</label><input type="text" name="regions" placeholder="Reģions"  required><br/><br/>
+            <label>Pilsēta:</label><input type="text" name="pilseta" placeholder="Pilsēta" required><br/><br/>
+            <label>Iela:</label><input type="text" name="iela" placeholder="Iela" required><br/><br/>
+            <label>Māja, dzīvoklis:</label><input type="text" name="maja" placeholder="Māja, dzīvoklis" required><br/><br/>
+            <label>Pasta indekss:</label><input type="text" name="pasta_indekss" placeholder="LV-####" required><br/><br/>
+
             
             <button class="btn" type="submit" name="submit" id="submit" onClick="update()">Ievietot</button>
             <a href="../../cits.php"><button class="btn-danger" type="button" value="button">Atpakaļ</button></a>
@@ -29,13 +32,15 @@ if(isset($_SESSION['username'])){
 <section id="adminSakums">
 <div class="row">
         <div class="info">
-            <div class="head-info">Pacientu administrēšana</div>
+            <div class="head-info">Adreses</div>
             <table>
                 <tr>
-                    <th>Pakalpojums</th>
-                    <th>Apraksts</th>
-                    <th>Cena</th>
-                    <th></th>
+                    <th>Valsts</th>
+                    <th>Reģions</th>
+                    <th>Pilsēta</th>
+                    <th>Iela</th>
+                    <th>Māja, dzīvoklis</th>
+                    <th>Pasta indekss</th>
 
                 </tr>
 
@@ -46,29 +51,31 @@ if(isset($_SESSION['username'])){
             // vietnes lappušu kods
 
 
-                    $pakalpojumu_SQL = "SELECT * from pakalpojums";
-                    $atlasa_pakalpojumus = mysqli_query($savienojums, $pakalpojumu_SQL) or die ("Nekorekts vaicājums");
+                    $adresu_SQL = "SELECT * from adrese";
+                    $atlasa_adreses = mysqli_query($savienojums, $adresu_SQL) or die ("Nekorekts vaicājums");
 
                     //ja vaicājuma rindu skaits ir augstāks par 0 (tātad nav tukšs), tad izvada vērtības
-                    if(mysqli_num_rows($atlasa_pakalpojumus) > 0) {
-                        while($row = mysqli_fetch_assoc($atlasa_pakalpojumus)){
+                    if(mysqli_num_rows($atlasa_adreses) > 0) {
+                        while($row = mysqli_fetch_assoc($atlasa_adreses)){
 
 
                             echo "
                                 <tr>
-                                    <td>{$row['nosaukums']}</td>
-                                    <td>{$row['apraksts']}</td>
-                                    <td>{$row['cena']}</td>
+                                    <td>{$row['valsts']}</td>
+                                    <td>{$row['regions']}</td>
+                                    <td>{$row['pilseta']}</td>
+                                    <td>{$row['iela']}</td>
+                                    <td>{$row['maja']}</td>
+                                    <td>{$row['pasta_indekss']}</td>
                                     <td>
 
                                         ";
                                         ?>
                                         <!-- pogas, kas pārved uz kodu kas nodrošina datu rediģēšanu vai dzēšanu -->
                                     <td>
-                                        <a class="btn-danger" onclick="DeleteConfirm()" href="delete_treatment.php?pakalpojums_id=<?php echo $row['pakalpojums_id']; ?>">
+                                        <a class="btn-danger" onclick="DeleteConfirm()" href="delete_address.php?adrese_id=<?php echo $row['adrese_id']; ?>">
                                             Dzēst
                                         </a>
-                                        <a class="btn" href="edit_treatment.php?edit_id=<?php echo $row['pakalpojums_id']; ?>" alt="edit" >Rediģēt</a>
                                         </form>
                                     </td>
                                         

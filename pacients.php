@@ -89,11 +89,12 @@
                             <tr>
                                 <td>{$row['id_diagnoze']}</td>
                                 <td>{$row['nosaukums']}</td>
-                                <td>{$row['statuss']}</td>
+                                <td>{$row['statuss']}</td>";
+                              ?>  <td><a class="btn" href="files\diagnosis\edit_diagnosisstatus.php?edit_id=<?php echo $row['pacienta_diagnoze_id'];?>" >Rediģēt</a> </td>
                             </tr>
                         
                         
-                        ";
+                        <?php
                      
                     }
                 }else{
