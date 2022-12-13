@@ -1,9 +1,9 @@
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../style.css">
 <body>
 <?php
 
-require '../connect_db.php';
+require '../../connect_db.php';
 if(isset($_POST['submit']))
 {    
     //saņem datus no ievietošanas laukiem un ievieto mainīgajos
@@ -22,7 +22,7 @@ if(isset($_POST['submit']))
     if(mysqli_query($savienojums, $sql)){
         echo "<div class='pazinojums sarkans'>Ieraksts pievienots veiksmīgi</div>
         
-        <a href='../vizites.php'><button class='btn-big' type='button' value='button'>Atpakaļ</button></a>";
+        <a href='../../vizites.php'><button class='btn-big' type='button' value='button'>Atpakaļ</button></a>";
         
         
     } else{

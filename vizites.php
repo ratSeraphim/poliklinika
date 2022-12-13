@@ -91,11 +91,11 @@
                                     ";
                                 ?>
                                     <td>
-                                    <a class="btn-danger" onclick="DeleteConfirm()" href="files\delete_appt.php?vizite_id=<?php echo $row['vizite_id']; ?>">
+                                    <a class="btn-danger" onclick="DeleteConfirm()" href="files\appointment\delete_appt.php?vizite_id=<?php echo $row['vizite_id']; ?>">
                                         Dzēst
                                     </a>
-                                    <a class="btn" href="files\edit_appt.php?edit_id=<?php echo $row['vizite_id']; ?>" alt="edit" >Rediģēt</a>
-                                    <a class="btn" href="files\addup.php?edit_id=<?php echo $row['vizite_id']; ?>" alt="edit" >Aprēķins</a>
+                                    <a class="btn" href="files\appointment\edit_appt.php?edit_id=<?php echo $row['vizite_id']; ?>" alt="edit" >Rediģēt</a>
+                                    <a class="btn" href="files\appointment\addup.php?edit_id=<?php echo $row['vizite_id']; ?>" alt="edit" >Aprēķins</a>
                                     </td>
                                     
                                 </tr>
@@ -145,7 +145,7 @@
                 &gt;&gt;
             </a>
         </div>
-        <a class="btn-big" href="files\add_appt.php" alt="edit" >Pievienot jaunu</a>
+        <a class="btn-big" href="files\appointment\add_appt.php" alt="edit" >Pievienot jaunu</a>
 <?php
     // Ja lietotājs nav ielogojies/nav sesijas, tad atgriež uz logina lapas
     } else {

@@ -1,8 +1,8 @@
 <?php 
 
 $page ="vizites";
-require "editor_header.php";
-require ("../connect_db.php");
+require "../editor_header.php";
+require ("../../connect_db.php");
 
 ?>
 
@@ -17,12 +17,12 @@ require ("../connect_db.php");
     {
         echo "<div class='pazinojums zals'> Pacientam par šo pakalpojumu jāmaksā: {$row['samaksa']} EUR</div>
         
-        <a href='../vizites.php'><button class='btn-big' type='button' value='button'>Atpakaļ</button></a>";
+        <a href='../../vizites.php'><button class='btn-big' type='button' value='button'>Atpakaļ</button></a>";
     }
 //skaits mainās atkarībā no pakalpojuma, no tā, vai lietotājam ir ģimenes ārsta nosūtījums,
 //apdrošināšana, vai pakalpojums tiek apmaksāts
 ?>
 
 <?php
-    //Pieliek kājeni
-include "../footer.php"; ?>
+
+include "../../footer.php"; ?>

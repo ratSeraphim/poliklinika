@@ -1,9 +1,9 @@
 <?php
 $page = "pacienti"; #Obligāti jādara pirms izsaucot header
-require "editor_header.php";
+require "../editor_header.php";
 
 if(isset($_SESSION['username'])){ 
-    require '../connect_db.php';
+    require '../../connect_db.php';
     //saņem datus priekš dropdown izvēlnes
     $pieejamiearsti = "SELECT * FROM `gimenesarsti`";
     $arsti = mysqli_query($savienojums, $pieejamiearsti);
@@ -49,19 +49,18 @@ if(isset($_SESSION['username'])){
                     } 
                 ?>
             </select><br/><br/>
-            <button class="btn" type="submit" name="submit" id="submit" onClick="update()">Izmainīt</button>
-            <a href="../pacienti.php"><button class="btn-danger" type="button" value="button">Atpakaļ</button></a>
+            <button class="btn" type="submit" name="submit" id="submit" onClick="update()">Ievietot</button>
+            <a href="../../pacienti.php"><button class="btn-danger" type="button" value="button">Atpakaļ</button></a>
 
 
         </form>
         <div class="image">
-            <img src="../images/pacienti.png">
+            <img src="../../images/pacienti.png">
         </div>  
     </div>
-<?php
-
+    <?php
     } else {
         echo "<div class='pazinojums sarkans'>TEV ŠEIT NAV PIEEJAS!</div>";
-        header("Refresh: 0;url=login.php");
+        header("Refresh: 0;url=../../login.php");
     }
-include "../footer.php"; ?>
+include "../../footer.php"; ?>

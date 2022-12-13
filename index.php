@@ -33,18 +33,23 @@
             <i class="fas fa-users"></i> <br> Pacienti 
             </a>
        
-        <!-- darbinieku sadaļu redz tikai cilvēki ar administratora piekļuvi -->
-        <?php IF ($_SESSION["isadmin"] == "yes") { ?> 
-            <a class="box" href="darbinieki.php">
-            <i class="fas fa-suitcase-medical"></i> <br> Darbinieki
+        
+            <a class="box" href="cits.php">
+            <i class="fas fa-cog"></i> <p>Citas tabulas</p>
             </a>
-        <?php } ?>
-            
       
             <a class="box" href="files/logout.php">
             <i class="fas fa-power-off"></i> <p>Izlogoties</p>
             </a>
+
     </div>
+
+    <!-- darbinieku sadaļu redz tikai cilvēki ar administratora piekļuvi -->
+    <?php IF ($_SESSION["isadmin"] == "yes") { ?> 
+            <a class="admin-box" href="darbinieki.php">
+            <i class="fas fa-suitcase-medical"></i> <br> Darbinieki
+            </a>
+        <?php } ?>
 
     <?php 
     // saņemam datus par dažādajiem skaitiem/statistiku

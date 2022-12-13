@@ -50,10 +50,10 @@
 
                             ";?>
                             <td>
-                            <a class="btn-danger" onclick="DeleteConfirm()" href="files\delete_worker.php?darbinieks_id=<?php echo $row['darbinieks_id']; ?>">
+                            <a class="btn-danger" onclick="DeleteConfirm()" href="files\workers\delete_worker.php?darbinieks_id=<?php echo $row['darbinieks_id']; ?>">
                                 Dzēst
                             </a>
-                            <a class="btn" href="files\edit_worker.php?edit_id=<?php echo $row['darbinieks_id']; ?>" alt="edit" >Rediģēt</a>
+                            <a class="btn" href="files\workers\edit_worker.php?edit_id=<?php echo $row['darbinieks_id']; ?>" alt="edit" >Rediģēt</a>
                             </form>
                         </td>
                             

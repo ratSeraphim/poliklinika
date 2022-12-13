@@ -1,12 +1,12 @@
 
 <?php
 $page = "vizites"; #Obligāti jādara pirms izsaucot header
-require "editor_header.php";
+require "../editor_header.php";
 
 if(isset($_SESSION['username'])){
 
     //Datubāzes savienojums
-    require '../connect_db.php';
+    require '../../connect_db.php';
     //Saņem ID no datubāzes
     if(isset($_GET['edit_id'])){
     $sql = "SELECT * FROM vizite WHERE vizite_id =" .$_GET['edit_id'];
@@ -33,11 +33,11 @@ if(isset($_SESSION['username'])){
     }
     else
     {
-    header("location: ../vizites.php");
+    header("location: ../../vizites.php");
     }
     }
 
-    require '../connect_db.php';
+    require '../../connect_db.php';
     //saņem datus priekš dropdown izvēlnes
     $pieejamiepakalpojumi = "SELECT * FROM `pakalpojums`";
     $pakalpojumi = mysqli_query($savienojums,$pieejamiepakalpojumi);
@@ -138,7 +138,7 @@ if(isset($_SESSION['username'])){
 
     </form>
         <div class="image">
-        <img src="../images/vizites.png">
+        <img src="../../images/vizites.png">
         </div>  
     </div>
 
@@ -157,6 +157,6 @@ if(isset($_SESSION['username'])){
 <?php
     } else {
         echo "<div class='pazinojums sarkans'>TEV ŠEIT NAV PIEEJAS!</div>";
-        header("Refresh: 0;url=login.php");
+        header("Refresh: 0;url=../../login.php");
     }
-include "../footer.php"; ?>
+include "../../footer.php"; ?>

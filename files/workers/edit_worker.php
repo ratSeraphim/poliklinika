@@ -1,11 +1,11 @@
 <?php
 $page = "darbinieki"; #Obligāti jādara pirms izsaucot header
-require "editor_header.php";
+require "../editor_header.php";
 
 if(isset($_SESSION['username'])){
 
     //Datubāzes savienojums
-    require '../connect_db.php';
+    require '../../connect_db.php';
     //Saņem ID no datubāzes
     if(isset($_GET['edit_id'])){
     $sql = "SELECT * FROM darbinieki WHERE darbinieks_id =" .$_GET['edit_id'];
@@ -29,7 +29,7 @@ if(isset($_SESSION['username'])){
     }
     else
     {
-    header("location: ../darbinieki.php");
+    header("location: ../../darbinieki.php");
     }
     }
 //saņem datus priekš dropdown izvēlnes
@@ -68,12 +68,12 @@ if(isset($_SESSION['username'])){
         ?>
     </select><br/><br/>
     <button class="btn" type="submit" name="btn-update" id="btn-update" onClick="update()">Izmainīt</button>
-    <a href="../darbinieki.php"><button class="btn-danger" type="button" value="button">Atpakaļ</button></a>
+    <a href="../../darbinieki.php"><button class="btn-danger" type="button" value="button">Atpakaļ</button></a>
 
 
     </form>
         <div class="image">
-        <img src="../images/editor.png">
+        <img src="../../images/editor.png">
         </div>  
     </div>
 
@@ -92,6 +92,6 @@ if(isset($_SESSION['username'])){
 <?php
     } else {
         echo "<div class='pazinojums sarkans'>TEV ŠEIT NAV PIEEJAS!</div>";
-        header("Refresh: 0;url=login.php");
+        header("Refresh: 0;url=../../login.php");
     }
-include "../footer.php"; ?>
+include "../../footer.php"; ?>

@@ -1,12 +1,12 @@
 
 <?php
 $page = "pacienti"; #Obligāti jādara pirms izsaucot header
-require "editor_header.php";
+require "../editor_header.php";
 
 if(isset($_SESSION['username'])){
 
     //Datubāzes savienojums
-    require '../connect_db.php';
+    require '../../connect_db.php';
     //Saņem ID no datubāzes
     if(isset($_GET['edit_id'])){
     $sql = "SELECT * FROM pacienti WHERE pacients_id =" .$_GET['edit_id'];
@@ -34,7 +34,7 @@ if(isset($_SESSION['username'])){
     }
     else
     {
-    header("location: ../pacienti.php");
+    header("location: ../../pacienti.php");
     }
     }
     //saņem datus priekš dropdown izvēlnes
@@ -84,12 +84,12 @@ if(isset($_SESSION['username'])){
     </select><br/><br/>
 
     <button class="btn" type="submit" name="btn-update" id="btn-update" onClick="update()">Izmainīt</button>
-    <a href="../pacienti.php"><button class="btn-danger" type="button" value="button">Atpakaļ</button></a>
+    <a href="../../pacienti.php"><button class="btn-danger" type="button" value="button">Atpakaļ</button></a>
 
 
     </form>
         <div class="image">
-        <img src="../images/pacienti.png">
+        <img src="../../images/pacienti.png">
         </div>  
     </div>
 
@@ -104,10 +104,9 @@ if(isset($_SESSION['username'])){
     </script>
 
 
-
 <?php
     } else {
         echo "<div class='pazinojums sarkans'>TEV ŠEIT NAV PIEEJAS!</div>";
-        header("Refresh: 0;url=login.php");
+        header("Refresh: 0;url=../../login.php");
     }
-include "../footer.php"; ?>
+include "../../footer.php"; ?>

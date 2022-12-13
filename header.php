@@ -24,7 +24,7 @@
         IF ($_SESSION["isadmin"] == "yes") { ?> 
         <a href="darbinieki.php" class="<?php echo ($page == "darbinieki" ? "active" : ""); ?>"><i class="fa-solid fa-suitcase-medical"></i> Darbinieki</a> 
         <?php } ?>
-        
+        <a href="cits.php" class="<?php echo ($page == "cits" ? "active" : ""); ?>"><i class="fas fa-cog"></i> Cits</a>
         
     </nav>
     <nav class="navbar">

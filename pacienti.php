@@ -65,10 +65,10 @@
                                         ?>
                                         <!-- pogas, kas pārved uz kodu kas nodrošina datu rediģēšanu vai dzēšanu -->
                                         <td>
-                                        <a class="btn-danger" onclick="DeleteConfirm()" href="files\delete_patient.php?pacients_id=<?php echo $row['pacients_id']; ?>">
+                                        <a class="btn-danger" onclick="DeleteConfirm()" href="files\patient\delete_patient.php?pacients_id=<?php echo $row['pacients_id']; ?>">
                                             Dzēst
                                         </a>
-                                        <a class="btn" href="files\edit_patient.php?edit_id=<?php echo $row['pacients_id']; ?>" alt="edit" >Edit</a>
+                                        <a class="btn" href="files\patient\edit_patient.php?edit_id=<?php echo $row['pacients_id']; ?>" alt="edit" >Edit</a>
                                         </form>
                                     </td>
                                         
@@ -112,7 +112,7 @@
         </div>
 
         
-<a class="btn-big" href="files\add_patient.php" alt="edit" >Pievienot jaunu</a>
+<a class="btn-big" href="files\patient\add_patient.php" alt="edit" >Pievienot jaunu</a>
 <script>
     //pabrīdina lietotāju, ka tiek veikts dzēšanas mēģinājus
         function DeleteConfirm() {

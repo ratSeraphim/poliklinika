@@ -1,5 +1,9 @@
 use poliklinika;
 
+-- admin 
+CREATE USER 'administrators'@'localhost' IDENTIFIED VIA mysql_native_password USING '***';GRANT USAGE ON *.* TO 'administrators'@'localhost' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
+GRANT ALL PRIVILEGES ON `poliklinika`.* TO 'administrators'@'localhost' WITH GRANT OPTION;
+
 INSERT INTO adrese (valsts, regions, pilseta, iela, maja, pasta_indekss) VALUES 
 ('Latvija', 'Rīga', 'Rīga', 'Šampētera iela', '5', 'LV-1046'),
 ('Latvija', 'Rīga', 'Rīga', 'Dzeņu iela', '6', 'LV-1021'),
@@ -112,12 +116,6 @@ UPDATE `lietotaji` SET `parole` = '$2y$10$o6qwzkekoPuOtYF5tOL0SOnfgnQN/vJWOIVWFJ
 UPDATE `lietotaji` SET `parole` = '$2y$10$aRD43lA4QTpvNzVabK7jC.gXHCk5GD2srYbmTLMMxQx4JliO8AzPC' WHERE `lietotaji`.`lietotajs_id` = 6 AND `lietotaji`.`id_darbinieks` = 8;
 
 
-
-
--- admin 
-CREATE USER 'administrators'@'localhost' IDENTIFIED VIA mysql_native_password USING '***';GRANT USAGE ON *.* TO 'administrators'@'localhost' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
-GRANT ALL PRIVILEGES ON `poliklinika`.* TO 'administrators'@'localhost' WITH GRANT OPTION;
-
 -- procedūra, kas ļaus tīmekļvietnei parādīt sesijas lietotājam viņa vārdu un uzvārdu (lai skaidri redzetu, kas dotajā brīdī ir ielogojies)
 DELIMITER $$
 CREATE PROCEDURE lietotajaVards ( IN lietotajs varchar(45) ) 
@@ -191,7 +189,7 @@ DELIMITER ;
 
 
 
--- jamaksa 2 eur, jo ģimenes ārsta apmeklējums
+-- jāmaksā 2 eur, jo ģimenes ārsta apmeklējums
 CALL izmaksas (1);
 
 -- nav jāmaksā, jo ir valsts apmaksāts
@@ -240,7 +238,7 @@ ORDER BY laiks ASC;
 SELECT * FROM vizites;
 
 
--- parāda informāciju par darbinieka 
+-- parāda informāciju par darbinieku (ieskaitot informāciju no citām tabulām!)
 CREATE VIEW darbiniekaInfo AS
 SELECT darbinieks_id, vards, uzvards, talrunis, liguma_nr, tips, epasts, lietotajvards, CONCAT(a.valsts,', ', a.regions,', ',a.pilseta,', ',a.iela,' ',a.maja,', ',pasta_indekss) AS adrese
 FROM darbinieki 
@@ -251,6 +249,7 @@ ON adrese_id = id_adrese;
 
 SELECT * FROM darbiniekaInfo WHERE darbinieks_id = 5;
 
+-- parāda informāciju par darbinieka specialitātēm
 CREATE VIEW darbSpecialitates AS
 SELECT darbinieks_id, CONCAT(vards,' ', uzvards) AS darbinieks, nosaukums
 FROM darbinieki
@@ -284,7 +283,9 @@ WHERE id_specialitate = 3;
 
 SELECT * FROM gimenesarsti;
 
-
+-- skats, kas attēlo adreses dažādās vērtības kā vienu atlasāmu vērtību
 CREATE VIEW adreseOneLine AS
-SELECT CONCAT(valsts,', ', regions,', ',pilseta,', ',iela,' ',maja,', ',pasta_indekss) AS adrese
+SELECT adrese_id, CONCAT(valsts,', ', regions,', ',pilseta,', ',iela,' ',maja,', ',pasta_indekss) AS adrese
 FROM adrese;
+
+SELECT * FROM adreseOneLine;
