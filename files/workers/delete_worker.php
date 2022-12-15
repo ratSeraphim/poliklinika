@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../style.css">
 <?php
 session_start();
 require '../../connect_db.php';
@@ -24,7 +24,7 @@ require '../../connect_db.php';
             //lietotājs nejauši izdzēš sevi!
             echo "<div class='pazinojums sarkans'>Šo lietotāju nevar izdzēst!</div>
     
-            <a href='../../darbinieki.php'><button class='btn-danger' type='button' value='button'>Atpakaļ</button></a>";
+            <a href='../../darbinieki.php'><button class='btn-big' type='button' value='button'>Atpakaļ</button></a>";
             
         } else if($output == 0){
             mysqli_free_result($parbaudit);

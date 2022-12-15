@@ -1,5 +1,6 @@
 -- admin 
-CREATE USER 'administrators'@'localhost' IDENTIFIED VIA mysql_native_password USING '***';GRANT USAGE ON *.* TO 'administrators'@'localhost' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
+CREATE USER 'administrators'@'localhost' IDENTIFIED BY 'Parole1';
+GRANT USAGE ON *.* TO 'administrators'@'localhost';
 GRANT ALL PRIVILEGES ON `poliklinika`.* TO 'administrators'@'localhost' WITH GRANT OPTION;
 
 use poliklinika;
